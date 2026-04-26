@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XHEN Blog — Carreras Híbridas & Functional Fitness</title>
+  <meta name="description" content="Noticias, tendencias y consejos sobre carreras híbridas, OCR, DEKA, Spartan Race y functional fitness por XHEN Military & Sports.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --rosa: #E8197A; --rosa-dark: #c01265;
+      --negro: #0A0A0A; --negro2: #111111;
+      --gris: #1A1A1A; --gris2: #222222;
+      --texto: #E8E8E8; --texto-muted: #888; --blanco: #ffffff;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--negro); color: var(--texto); min-height: 100vh; overflow-x: hidden; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232,25,122,0.2);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 1rem;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-logo img { height: 28px; filter: brightness(0) invert(1); }
+    .nav-logo span { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--blanco); letter-spacing: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--texto-muted); text-decoration: none; font-size: 0.8rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--blanco); }
+    .btn-tienda { background: var(--rosa); color: var(--blanco) !important; padding: 0.5rem 1.25rem; border-radius: 4px; font-weight: 700 !important; letter-spacing: 1px !important; transition: background 0.2s !important; }
+    .btn-tienda:hover { background: var(--rosa-dark) !important; }
+
+    .hero { position: relative; background: var(--negro2); padding: 6rem 2rem 5rem; text-align: center; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(232,25,122,0.15) 0%, transparent 70%); pointer-events: none; }
+    .hero-line { width: 40px; height: 3px; background: var(--rosa); margin: 0 auto 2rem; border-radius: 2px; }
+    .hero-logo { height: 55px; display: block; margin: 0 auto 1.5rem; position: relative; }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem,3vw,2.5rem); letter-spacing: 8px; color: var(--texto-muted); margin-bottom: 1.5rem; position: relative; }
+    .hero p { color: var(--texto-muted); font-size: 1rem; max-width: 480px; margin: 0 auto; line-height: 1.7; font-weight: 300; position: relative; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .section { padding: 5rem 0; }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3rem; border-bottom: 1px solid var(--gris2); padding-bottom: 1rem; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; color: var(--blanco); }
+
+    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5px; }
+
+    .article-card { background: var(--gris); text-decoration: none; color: inherit; display: block; overflow: hidden; transition: background 0.3s; position: relative; }
+    .article-card:hover { background: var(--gris2); }
+    .article-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--rosa); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+    .article-card:hover::after { transform: scaleX(1); }
+
+    .card-img { width: 100%; height: 220px; overflow: hidden; background: var(--negro2); position: relative; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; filter: brightness(0.85); }
+    .article-card:hover .card-img img { transform: scale(1.05); }
+    .card-img-placeholder { width: 100%; height: 220px; background: linear-gradient(135deg, var(--negro2) 0%, var(--gris) 100%); display: flex; align-items: center; justify-content: center; }
+    .card-img-placeholder span { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: rgba(232,25,122,0.3); letter-spacing: 4px; }
+
+    .card-body { padding: 1.75rem; }
+    .card-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--rosa); margin-bottom: 0.75rem; }
+    .card-title { font-size: 1.1rem; font-weight: 700; line-height: 1.3; color: var(--blanco); margin-bottom: 0.75rem; }
+    .card-excerpt { font-size: 0.875rem; color: var(--texto-muted); line-height: 1.6; font-weight: 300; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-meta { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--negro2); font-size: 0.75rem; color: var(--texto-muted); display: flex; align-items: center; justify-content: space-between; }
+    .card-arrow { color: var(--rosa); font-size: 1rem; transition: transform 0.2s; }
+    .article-card:hover .card-arrow { transform: translateX(4px); }
+
+    .featured-card { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 768px) { .featured-card { grid-template-columns: 1fr; } .nav-links { display: none; } }
+    .featured-card .card-img { height: 100%; min-height: 320px; }
+    .featured-card .card-body { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+    .featured-card .card-title { font-size: 1.6rem; }
+    .featured-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blanco); background: var(--rosa); padding: 0.3rem 0.75rem; border-radius: 2px; display: inline-block; margin-bottom: 1rem; }
+
+    .banner { background: var(--rosa); padding: 4rem 2rem; text-align: center; }
+    .banner h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 3px; color: var(--blanco); margin-bottom: 0.75rem; }
+    .banner p { color: rgba(255,255,255,0.8); margin-bottom: 2rem; font-weight: 300; }
+    .btn-white { display: inline-block; background: var(--blanco); color: var(--rosa) !important; padding: 0.875rem 2.5rem; border-radius: 4px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+    footer { background: var(--negro2); border-top: 1px solid var(--gris); padding: 3rem 2rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-logo img { height: 24px; filter: brightness(0) invert(1); opacity: 0.5; }
+    .footer-text { font-size: 0.8rem; color: var(--texto-muted); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: var(--texto-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--rosa); }
+
+    .article-page { display: none; }
+    .article-page.active { display: block; }
+    .index-page.hidden { display: none; }
+
+    .article-header { background: var(--negro2); padding: 5rem 2rem 4rem; position: relative; overflow: hidden; }
+    .article-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(232,25,122,0.1) 0%, transparent 60%); }
+    .article-header-inner { max-width: 800px; margin: 0 auto; position: relative; }
+    .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--texto-muted); text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2rem; transition: color 0.2s; }
+    .back-link:hover { color: var(--rosa); }
+    .article-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: 2px; line-height: 1; color: var(--blanco); margin-bottom: 1.5rem; }
+    .article-header-meta { display: flex; gap: 1.5rem; color: var(--texto-muted); font-size: 0.85rem; }
+    .article-img { width: 100%; max-height: 500px; object-fit: cover; display: block; }
+    .article-body { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
+    .article-body p { font-size: 1.05rem; line-height: 1.8; color: #ccc; margin-bottom: 1.5rem; font-weight: 300; }
+    .article-body h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px; color: var(--blanco); margin: 2.5rem 0 1rem; }
+    .article-body ul { margin: 1rem 0 1.5rem 1.5rem; }
+    .article-body li { color: #ccc; line-height: 1.8; margin-bottom: 0.5rem; font-weight: 300; }
+    .article-body strong { color: var(--blanco); font-weight: 700; }
+    .rosa-line { height: 3px; background: var(--rosa); width: 40px; margin: 1.5rem 0; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo" onclick="showIndex(event)">
+    <img src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
+    <span>BLOG</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" onclick="showIndex(event)">Inicio</a></li>
+    <li><a href="https://xhen.es" target="_blank" class="btn-tienda">Ir a la Tienda →</a></li>
+  </ul>
+</nav>
+
+<div class="index-page" id="indexPage">
+  <section class="hero">
+    <div class="hero-line"></div>
+    <img class="hero-logo" src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
+    <h1>BLOG</h1>
+    <p>Noticias, tendencias y consejos sobre carreras híbridas, OCR, DEKA y functional fitness.</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">ÚLTIMAS ENTRADAS</h2>
+      </div>
+      <div class="articles-grid" id="articlesGrid"></div>
+    </div>
+  </section>
+
+  <div class="banner">
+    <h2>EQUÍPATE PARA COMPETIR</h2>
+    <p>Ropa y accesorios diseñados para atletas híbridos y carreras de obstáculos</p>
+    <a href="https://xhen.es" target="_blank" class="btn-white">IR A LA TIENDA</a>
+  </div>
+</div>
+
+<div class="article-page" id="articlePage">
+  <div class="article-header">
+    <div class="article-header-inner">
+      <a href="index.html" class="back-link" onclick="showIndex(event)">← Volver al blog</a>
+      <div class="rosa-line"></div>
+      <h1 id="articleTitle"></h1>
+      <div class="article-header-meta">
+        <span id="articleDate"></span>
+        <span id="articleTag"></span>
+      </div>
+    </div>
+  </div>
+  <img id="articleImg" class="article-img" src="" alt="" style="display:none">
+  <div class="article-body" id="articleBody"></div>
+  <div class="banner">
+    <h2>EQUÍPATE PARA COMPETIR</h2>
+    <p>Ropa y accesorios diseñados para atletas híbridos y carreras de obstáculos</p>
+    <a href="https://xhen.es" target="_blank" class="btn-white">IR A LA TIENDA</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN"></div>
+    <span class="footer-text">© 2026 XHEN Military & Sports</span>
+    <ul class="footer-links">
+      <li><a href="https://xhen.es" target="_blank">Tienda</a></li>
+      <li><a href="https://www.instagram.com/xhenspain" target="_blank">Instagram</a></li>
+      <li><a href="https://xhen.es/policies/privacy-policy" target="_blank">Privacidad</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+const articles = [
+  {
+    id: "donde-entrenar-deka",
+    title: "¿Dónde entrenar DEKA?",
+    date: "14 de diciembre de 2025",
+    tag: "DEKA",
+    excerpt: "Si estás buscando un nuevo desafío fitness que ponga a prueba tu fuerza, resistencia y determinación, DEKA es la respuesta. Descubre los centros de entrenamiento más cercanos.",
+    img: "https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png",
+    featured: true,
+    content: `<p>Si estás buscando un nuevo desafío fitness que ponga a prueba tu fuerza, resistencia y determinación, DEKA es la respuesta.</p><h2>¿QUÉ ES DEKA?</h2><p>DEKA es una competición de fitness estandarizada creada por Spartan, diseñada para atletas de todos los niveles. Combina 10 zonas de entrenamiento funcional con carreras entre estaciones, creando un circuito completo de 5 kilómetros que desafía todo tu cuerpo.</p><p>Las 10 zonas incluyen ejercicios como remo, wall balls, box step-ups, sled push, y mucho más.</p><h2>¿POR QUÉ ENTRENAR DEKA?</h2><ul><li><strong>Estandarización:</strong> Todas las competiciones siguen el mismo formato, permitiendo comparar tu rendimiento a nivel global.</li><li><strong>Para todos los niveles:</strong> Desde principiantes hasta atletas élite.</li><li><strong>Entrenamiento completo:</strong> Trabaja fuerza, resistencia, potencia y habilidad mental.</li><li><strong>Comunidad:</strong> Miles de atletas en todo el mundo.</li></ul><h2>ENCUENTRA TU DEKA TRAINING CENTER</h2><p>En España y Portugal contamos con cientos de centros DEKA Training. Encuentra el más cercano en el mapa interactivo de la web oficial de DEKA.</p>`
+  },
+  {
+    id: "secreto-mejores-wod",
+    title: "El secreto que los mejores aplican en cada WOD",
+    date: "24 de mayo de 2025",
+    tag: "ENTRENAMIENTO",
+    excerpt: "Descubre el secreto de los atletas de élite: la preparación mental antes del WOD. Técnicas de respiración y visualización que mejorarán tu rendimiento.",
+    img: "https://xhen.es/cdn/shop/articles/CINTURONMUJERLEVANTANDO_a7f0a1c4-3c2e-4613-9e2e-3abce8f50a3a.png?v=1765665586",
+    content: `<p>Los atletas de élite comparten un secreto: la batalla del WOD se gana antes de comenzar. La preparación mental es tan importante como la física.</p><h2>LA PREPARACIÓN MENTAL</h2><p>Antes de cada WOD, los mejores atletas dedican entre 5 y 10 minutos a preparar su mente: técnicas de respiración, visualización y establecimiento de objetivos.</p><h2>TÉCNICAS DE RESPIRACIÓN</h2><p>La respiración diafragmática activa el sistema nervioso parasimpático. Practica 4 tiempos de inspiración, 4 de retención y 6 de expiración antes de comenzar.</p><h2>VISUALIZACIÓN</h2><p>Cierra los ojos y visualiza cada movimiento del WOD. Los atletas que practican la visualización mejoran su rendimiento hasta un 23% según estudios recientes.</p><h2>ESTABLECE TU OBJETIVO</h2><p>Define un objetivo específico antes de cada WOD. La especificidad activa diferentes rutas neuronales y mejora el foco.</p>`
+  },
+  {
+    id: "beneficios-crossfit",
+    title: "Los Increíbles Beneficios del CrossFit para tu Salud",
+    date: "24 de noviembre de 2024",
+    tag: "CROSSFIT",
+    excerpt: "El CrossFit no es solo un entrenamiento, es un estilo de vida que transforma tu cuerpo y tu mente. Descubre todos sus beneficios.",
+    img: "https://xhen.es/cdn/shop/articles/DALL_E_2024-11-24_10.41.16_-_A_group_of_athletes_performing_Olympic_lifts_in_a_CrossFit_gym_box_showcasing_intensity_and_teamwork._The_environment_includes_weights_racks_and.webp?v=1732441337",
+    content: `<p>El CrossFit ha revolucionado el mundo del fitness. Combina ejercicios funcionales de alta intensidad para transformar tu cuerpo y tu mente.</p><h2>BENEFICIOS FÍSICOS</h2><ul><li><strong>Mejora la composición corporal:</strong> Reduce la grasa y aumenta la masa muscular.</li><li><strong>Aumenta la capacidad cardiovascular:</strong> Mejora el VO2 máx significativamente.</li><li><strong>Fuerza funcional:</strong> Movimientos diseñados para la vida cotidiana.</li><li><strong>Flexibilidad:</strong> Trabaja la movilidad articular de forma integral.</li></ul><h2>BENEFICIOS MENTALES</h2><p>El CrossFit libera endorfinas, dopamina y serotonina. Reduce el estrés y la ansiedad de forma significativa.</p><p>La comunidad del box es uno de los factores más poderosos: apoyo mutuo, competición sana y objetivos compartidos.</p><h2>¿CÓMO EMPEZAR?</h2><p>La mayoría de boxes ofrecen clases de iniciación. No importa tu nivel: el CrossFit se escala a cada persona.</p>`
+  }
+];
+
+function renderArticles() {
+  const grid = document.getElementById('articlesGrid');
+  grid.innerHTML = articles.map((a, i) => {
+    const featured = i === 0;
+    const imgHtml = a.img
+      ? `<div class="card-img"><img src="${a.img}" alt="${a.title}" loading="lazy"></div>`
+      : `<div class="card-img-placeholder"><span>XHEN</span></div>`;
+    return `<a href="#" class="article-card ${featured ? 'featured-card' : ''}" onclick="showArticle(event,'${a.id}')">
+      ${imgHtml}
+      <div class="card-body">
+        ${featured ? '<span class="featured-tag">DESTACADO</span>' : ''}
+        <div class="card-tag">${a.tag}</div>
+        <h2 class="card-title">${a.title}</h2>
+        <p class="card-excerpt">${a.excerpt}</p>
+        <div class="card-meta"><span>${a.date}</span><span class="card-arrow">→</span></div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+function showIndex(e) {
+  if (e) e.preventDefault();
+  document.getElementById('indexPage').classList.remove('hidden');
+  document.getElementById('articlePage').classList.remove('active');
+  window.scrollTo(0,0);
+}
+
+function showArticle(e, id) {
+  e.preventDefault();
+  const a = articles.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('articleTitle').textContent = a.title;
+  document.getElementById('articleDate').textContent = a.date;
+  document.getElementById('articleTag').textContent = a.tag;
+  document.getElementById('articleBody').innerHTML = a.content;
+  const img = document.getElementById('articleImg');
+  if (a.img) { img.src = a.img; img.alt = a.title; img.style.display = 'block'; }
+  else { img.style.display = 'none'; }
+  document.getElementById('indexPage').classList.add('hidden');
+  document.getElementById('articlePage').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+renderArticles();
+</script>
+</body>
+</html>
