@@ -4,168 +4,320 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XHEN Blog — Carreras Híbridas & Functional Fitness</title>
-  <meta name="description" content="Noticias, tendencias y consejos sobre carreras híbridas, OCR, DEKA, Spartan Race y functional fitness por XHEN Military & Sports.">
+  <meta name="description" content="Noticias, recetas y consejos sobre carreras híbridas, OCR, DEKA, Spartan Race y functional fitness por XHEN Military & Sports.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --rosa: #E8197A; --rosa-dark: #c01265;
+      --rosa: #E8197A; --rosa-dark: #c01265; --rosa-light: #fce4ef;
       --negro: #0A0A0A;
-      --gris-oscuro: #333333;
-      --gris: #F5F5F5; --gris2: #EBEBEB;
+      --gris: #F5F5F5; --gris2: #E8E8E8; --gris3: #CCCCCC;
       --texto: #1A1A1A; --texto-muted: #666; --blanco: #ffffff;
+      --sidebar-w: 240px;
     }
     html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; background: var(--blanco); color: var(--texto); min-height: 100vh; overflow-x: hidden; }
 
+    /* ── NAV ── */
     nav {
-      position: sticky; top: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 200;
       background: rgba(255,255,255,0.97); backdrop-filter: blur(12px);
-      border-bottom: 1px solid #eee;
-      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 1rem;
+      border-bottom: 1px solid var(--gris2);
+      padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 58px; gap: 1rem;
     }
-    .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-    .nav-logo img { height: 28px; }
-    .nav-logo span { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--negro); letter-spacing: 2px; }
-    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--texto-muted); text-decoration: none; font-size: 0.8rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--negro); }
-    .btn-tienda { background: var(--rosa); color: var(--blanco) !important; padding: 0.5rem 1.25rem; border-radius: 4px; font-weight: 700 !important; letter-spacing: 1px !important; transition: background 0.2s !important; }
-    .btn-tienda:hover { background: var(--rosa-dark) !important; }
+    .nav-left { display: flex; align-items: center; gap: 1rem; }
+    .hamburger { background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; flex-direction: column; gap: 4px; }
+    .hamburger span { display: block; width: 20px; height: 2px; background: var(--texto); border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .nav-logo img { height: 26px; }
+    .nav-logo span { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--negro); letter-spacing: 2px; }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .nav-cats { display: flex; gap: 0; list-style: none; }
+    .nav-cats a { color: var(--texto-muted); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 0.4rem 0.75rem; border-radius: 4px; transition: all 0.2s; white-space: nowrap; }
+    .nav-cats a:hover, .nav-cats a.active { color: var(--rosa); background: var(--rosa-light); }
+    .btn-tienda { background: var(--rosa); color: var(--blanco) !important; padding: 0.45rem 1.1rem; border-radius: 4px; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.5px; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+    .btn-tienda:hover { background: var(--rosa-dark); }
+    @media (max-width: 900px) { .nav-cats { display: none; } }
+    @media (max-width: 600px) { .nav-logo span { display: none; } }
 
-    .hero { position: relative; background: var(--negro); padding: 6rem 2rem 5rem; text-align: center; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(232,25,122,0.2) 0%, transparent 70%); pointer-events: none; }
-    .hero-line { width: 40px; height: 3px; background: var(--rosa); margin: 0 auto 2rem; border-radius: 2px; }
-    .hero-logo { height: 55px; display: block; margin: 0 auto 1.5rem; position: relative; filter: brightness(0) invert(1); }
-    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem,3vw,2.5rem); letter-spacing: 8px; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; position: relative; }
-    .hero p { color: rgba(255,255,255,0.55); font-size: 1rem; max-width: 480px; margin: 0 auto; line-height: 1.7; font-weight: 300; position: relative; }
+    /* ── LAYOUT ── */
+    .layout { display: flex; min-height: calc(100vh - 58px); }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-    .section { padding: 5rem 0; }
-    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3rem; border-bottom: 2px solid var(--gris2); padding-bottom: 1rem; }
-    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; color: var(--negro); }
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--gris);
+      border-right: 1px solid var(--gris2);
+      padding: 2rem 0;
+      position: sticky;
+      top: 58px;
+      height: calc(100vh - 58px);
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      z-index: 100;
+    }
+    .sidebar.collapsed { transform: translateX(-100%); position: fixed; }
+    @media (max-width: 768px) {
+      .sidebar { position: fixed; top: 58px; left: 0; height: calc(100vh - 58px); transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+      .main { margin-left: 0 !important; }
+    }
 
-    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+    .sidebar-section { margin-bottom: 0.5rem; }
+    .sidebar-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-muted); padding: 0.5rem 1.5rem; display: block; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 1.5rem;
+      text-decoration: none;
+      color: var(--texto);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover { background: var(--gris2); color: var(--rosa); }
+    .sidebar-link.active { background: var(--rosa-light); color: var(--rosa); border-left-color: var(--rosa); font-weight: 700; }
+    .sidebar-icon { font-size: 1rem; }
+    .sidebar-count { margin-left: auto; font-size: 0.7rem; background: var(--gris2); color: var(--texto-muted); padding: 0.1rem 0.5rem; border-radius: 99px; }
+    .sidebar-link.active .sidebar-count { background: var(--rosa); color: var(--blanco); }
+    .sidebar-divider { height: 1px; background: var(--gris2); margin: 1rem 1.5rem; }
+    .sidebar-tienda { margin: 1.5rem 1.5rem 0; display: block; background: var(--rosa); color: var(--blanco) !important; text-align: center; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.5px; text-decoration: none; transition: background 0.2s; }
+    .sidebar-tienda:hover { background: var(--rosa-dark); }
 
-    .article-card { background: var(--blanco); text-decoration: none; color: inherit; display: block; overflow: hidden; transition: box-shadow 0.3s, transform 0.3s; position: relative; border: 1px solid var(--gris2); border-radius: 8px; }
-    .article-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); transform: translateY(-3px); }
-    .article-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--rosa); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; border-radius: 0 0 8px 8px; }
+    /* ── MAIN ── */
+    .main { flex: 1; min-width: 0; transition: margin-left 0.3s; }
+
+    /* ── HERO ── */
+    .hero { background: var(--negro); padding: 4rem 2rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% -20%, rgba(232,25,122,0.25) 0%, transparent 65%); }
+    .hero-logo { height: 50px; display: block; margin: 0 auto 1rem; filter: brightness(0) invert(1); position: relative; }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.2rem,2.5vw,2rem); letter-spacing: 8px; color: rgba(255,255,255,0.35); margin-bottom: 0.75rem; position: relative; }
+    .hero p { color: rgba(255,255,255,0.5); font-size: 0.9rem; max-width: 420px; margin: 0 auto; line-height: 1.6; font-weight: 300; position: relative; }
+
+    /* ── CATEGORIES STRIP (home) ── */
+    .cats-strip { background: var(--blanco); border-bottom: 1px solid var(--gris2); padding: 0 2rem; display: flex; gap: 0; overflow-x: auto; }
+    .cat-tab { display: flex; align-items: center; gap: 0.5rem; padding: 1rem 1.25rem; text-decoration: none; color: var(--texto-muted); font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; cursor: pointer; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
+    .cat-tab:hover { color: var(--rosa); }
+    .cat-tab.active { color: var(--rosa); border-bottom-color: var(--rosa); }
+
+    /* ── CONTENT ── */
+    .content { padding: 2.5rem 2rem; max-width: 960px; }
+
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: var(--negro); }
+    .section-count { font-size: 0.8rem; color: var(--texto-muted); }
+
+    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+
+    .article-card { background: var(--blanco); text-decoration: none; color: inherit; display: block; overflow: hidden; border: 1px solid var(--gris2); border-radius: 10px; transition: box-shadow 0.25s, transform 0.25s; cursor: pointer; }
+    .article-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .article-card::after { content: ''; display: block; height: 3px; background: var(--rosa); transform: scaleX(0); transition: transform 0.25s; transform-origin: left; border-radius: 0 0 10px 10px; }
     .article-card:hover::after { transform: scaleX(1); }
 
-    .card-img { width: 100%; height: 220px; overflow: hidden; background: var(--gris); position: relative; border-radius: 8px 8px 0 0; }
-    .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-    .article-card:hover .card-img img { transform: scale(1.05); }
-    .card-img-placeholder { width: 100%; height: 220px; background: var(--gris); display: flex; align-items: center; justify-content: center; border-radius: 8px 8px 0 0; }
-    .card-img-placeholder span { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: rgba(232,25,122,0.2); letter-spacing: 4px; }
+    .card-img { width: 100%; height: 190px; overflow: hidden; background: var(--gris); border-radius: 10px 10px 0 0; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .article-card:hover .card-img img { transform: scale(1.04); }
+    .card-img-placeholder { width: 100%; height: 190px; background: linear-gradient(135deg, var(--gris) 0%, var(--gris2) 100%); display: flex; align-items: center; justify-content: center; border-radius: 10px 10px 0 0; }
+    .card-img-placeholder span { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: rgba(232,25,122,0.2); letter-spacing: 4px; }
 
-    .card-body { padding: 1.75rem; }
-    .card-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--rosa); margin-bottom: 0.75rem; }
-    .card-title { font-size: 1.1rem; font-weight: 700; line-height: 1.3; color: var(--negro); margin-bottom: 0.75rem; }
-    .card-excerpt { font-size: 0.875rem; color: var(--texto-muted); line-height: 1.6; font-weight: 300; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .card-meta { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--gris2); font-size: 0.75rem; color: var(--texto-muted); display: flex; align-items: center; justify-content: space-between; }
-    .card-arrow { color: var(--rosa); font-size: 1rem; transition: transform 0.2s; }
-    .article-card:hover .card-arrow { transform: translateX(4px); }
+    .card-body { padding: 1.25rem; }
+    .card-cat { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rosa); margin-bottom: 0.6rem; }
+    .card-cat-dot { width: 5px; height: 5px; background: var(--rosa); border-radius: 50%; }
+    .card-title { font-size: 1rem; font-weight: 700; line-height: 1.3; color: var(--negro); margin-bottom: 0.6rem; }
+    .card-excerpt { font-size: 0.82rem; color: var(--texto-muted); line-height: 1.55; font-weight: 300; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-meta { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--gris2); font-size: 0.72rem; color: var(--texto-muted); display: flex; align-items: center; justify-content: space-between; }
+    .card-arrow { color: var(--rosa); transition: transform 0.2s; }
+    .article-card:hover .card-arrow { transform: translateX(3px); }
 
-    .featured-card { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; border-radius: 8px; }
-    @media (max-width: 768px) { .featured-card { grid-template-columns: 1fr; } .nav-links { display: none; } }
-    .featured-card .card-img { height: 100%; min-height: 320px; border-radius: 8px 0 0 8px; }
-    @media (max-width: 768px) { .featured-card .card-img { border-radius: 8px 8px 0 0; } }
-    .featured-card .card-body { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
-    .featured-card .card-title { font-size: 1.6rem; }
-    .featured-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blanco); background: var(--rosa); padding: 0.3rem 0.75rem; border-radius: 2px; display: inline-block; margin-bottom: 1rem; }
+    .featured-card { grid-column: 1 / -1; display: grid; grid-template-columns: 1.2fr 1fr; border-radius: 10px; }
+    @media (max-width: 600px) { .featured-card { grid-template-columns: 1fr; } }
+    .featured-card .card-img { height: 100%; min-height: 260px; border-radius: 10px 0 0 10px; }
+    @media (max-width: 600px) { .featured-card .card-img { border-radius: 10px 10px 0 0; min-height: 200px; } }
+    .featured-card .card-body { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+    .featured-card .card-title { font-size: 1.3rem; }
+    .featured-badge { display: inline-block; background: var(--rosa); color: var(--blanco); font-size: 0.62rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 3px; margin-bottom: 0.75rem; }
 
-    .banner { background: var(--negro); padding: 4rem 2rem; text-align: center; }
-    .banner h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 3px; color: var(--blanco); margin-bottom: 0.75rem; }
-    .banner p { color: rgba(255,255,255,0.6); margin-bottom: 2rem; font-weight: 300; }
-    .btn-rosa { display: inline-block; background: var(--rosa); color: var(--blanco) !important; padding: 0.875rem 2.5rem; border-radius: 4px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s, box-shadow 0.2s; }
-    .btn-rosa:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,25,122,0.4); background: var(--rosa-dark) !important; }
-
-    footer { background: var(--gris); border-top: 1px solid var(--gris2); padding: 3rem 2rem; }
-    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
-    .footer-logo img { height: 24px; }
-    .footer-text { font-size: 0.8rem; color: var(--texto-muted); }
-    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
-    .footer-links a { font-size: 0.8rem; color: var(--texto-muted); text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--rosa); }
-
+    /* ── ARTICLE PAGE ── */
     .article-page { display: none; }
     .article-page.active { display: block; }
     .index-page.hidden { display: none; }
+    .cat-page { display: none; }
+    .cat-page.active { display: block; }
 
-    .article-header { background: var(--negro); padding: 5rem 2rem 4rem; position: relative; overflow: hidden; }
-    .article-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(232,25,122,0.15) 0%, transparent 60%); }
-    .article-header-inner { max-width: 800px; margin: 0 auto; position: relative; }
-    .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2rem; transition: color 0.2s; }
-    .back-link:hover { color: var(--rosa); }
-    .article-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: 2px; line-height: 1; color: var(--blanco); margin-bottom: 1.5rem; }
-    .article-header-meta { display: flex; gap: 1.5rem; color: rgba(255,255,255,0.4); font-size: 0.85rem; }
-    .article-img { width: 100%; max-height: 500px; object-fit: cover; display: block; }
-    .article-body { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
-    .article-body p { font-size: 1.05rem; line-height: 1.8; color: var(--texto-muted); margin-bottom: 1.5rem; font-weight: 300; }
-    .article-body h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px; color: var(--negro); margin: 2.5rem 0 1rem; }
-    .article-body ul { margin: 1rem 0 1.5rem 1.5rem; }
-    .article-body li { color: var(--texto-muted); line-height: 1.8; margin-bottom: 0.5rem; font-weight: 300; }
-    .article-body strong { color: var(--negro); font-weight: 700; }
-    .rosa-line { height: 3px; background: var(--rosa); width: 40px; margin: 1.5rem 0; }
+    .art-hero { background: var(--negro); padding: 4rem 2rem 3rem; position: relative; overflow: hidden; }
+    .art-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(232,25,122,0.12) 0%, transparent 60%); }
+    .art-hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; transition: color 0.2s; cursor: pointer; background: none; border: none; font-family: inherit; }
+    .back-btn:hover { color: var(--rosa); }
+    .art-cat { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--rosa); margin-bottom: 1rem; }
+    .art-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 2px; line-height: 1; color: var(--blanco); margin-bottom: 1rem; }
+    .art-meta { color: rgba(255,255,255,0.35); font-size: 0.8rem; }
+    .art-img { width: 100%; max-height: 420px; object-fit: cover; display: block; }
+    .art-body { max-width: 760px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+    .art-body p { font-size: 1rem; line-height: 1.8; color: var(--texto-muted); margin-bottom: 1.25rem; font-weight: 300; }
+    .art-body h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: var(--negro); margin: 2rem 0 0.75rem; }
+    .art-body h3 { font-size: 1rem; font-weight: 700; color: var(--negro); margin: 1.25rem 0 0.5rem; }
+    .art-body ul, .art-body ol { margin: 0.75rem 0 1.25rem 1.5rem; }
+    .art-body li { color: var(--texto-muted); line-height: 1.7; margin-bottom: 0.4rem; font-weight: 300; }
+    .art-body strong { color: var(--negro); font-weight: 700; }
+    .rosa-line { height: 3px; background: var(--rosa); width: 36px; margin: 1rem 0 1.5rem; }
+
+    /* ── BANNER ── */
+    .banner { background: var(--negro); padding: 3.5rem 2rem; text-align: center; margin-top: auto; }
+    .banner h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: 3px; color: var(--blanco); margin-bottom: 0.5rem; }
+    .banner p { color: rgba(255,255,255,0.5); margin-bottom: 1.75rem; font-weight: 300; font-size: 0.9rem; }
+    .btn-rosa { display: inline-block; background: var(--rosa); color: var(--blanco) !important; padding: 0.75rem 2rem; border-radius: 4px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; font-size: 0.82rem; transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }
+    .btn-rosa:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,25,122,0.4); background: var(--rosa-dark) !important; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--gris); border-top: 1px solid var(--gris2); padding: 2rem; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo img { height: 22px; }
+    .footer-text { font-size: 0.75rem; color: var(--texto-muted); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.75rem; color: var(--texto-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--rosa); }
+
+    /* ── OVERLAY ── */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99; }
+    .overlay.open { display: block; }
+    @media (min-width: 769px) { .overlay { display: none !important; } }
+
+    /* ── EMPTY STATE ── */
+    .empty { padding: 4rem 2rem; text-align: center; color: var(--texto-muted); }
+    .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 2px; color: var(--texto); margin-bottom: 0.5rem; }
   </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo" onclick="showIndex(event)">
-    <img src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
-    <span>BLOG</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html" onclick="showIndex(event)">Inicio</a></li>
-    <li><a href="https://xhen.es" target="_blank" class="btn-tienda">Ir a la Tienda →</a></li>
+  <div class="nav-left">
+    <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="#" class="nav-logo" onclick="showHome(event)">
+      <img src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
+      <span>BLOG</span>
+    </a>
+  </div>
+  <ul class="nav-cats" id="navCats">
+    <li><a href="#" onclick="filterCat(event,'all')" class="active" data-cat="all">Todo</a></li>
+    <li><a href="#" onclick="filterCat(event,'noticias')" data-cat="noticias">Noticias</a></li>
+    <li><a href="#" onclick="filterCat(event,'recetas')" data-cat="recetas">Recetas</a></li>
+    <li><a href="#" onclick="filterCat(event,'consejos')" data-cat="consejos">Consejos Pro</a></li>
   </ul>
+  <div class="nav-right">
+    <a href="https://xhen.es" target="_blank" class="btn-tienda">Ir a la Tienda →</a>
+  </div>
 </nav>
 
-<div class="index-page" id="indexPage">
-  <section class="hero">
-    <div class="hero-line"></div>
-    <img class="hero-logo" src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
-    <h1>BLOG</h1>
-    <p>Noticias, tendencias y consejos sobre carreras híbridas, OCR, DEKA y functional fitness.</p>
-  </section>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">ÚLTIMAS ENTRADAS</h2>
-      </div>
-      <div class="articles-grid" id="articlesGrid"></div>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <span class="sidebar-label">Categorías</span>
+      <a href="#" class="sidebar-link active" onclick="filterCat(event,'all')" data-cat="all">
+        <span class="sidebar-icon">📰</span> Todo
+        <span class="sidebar-count" id="cnt-all">0</span>
+      </a>
+      <a href="#" class="sidebar-link" onclick="filterCat(event,'noticias')" data-cat="noticias">
+        <span class="sidebar-icon">🏆</span> Noticias
+        <span class="sidebar-count" id="cnt-noticias">0</span>
+      </a>
+      <a href="#" class="sidebar-link" onclick="filterCat(event,'recetas')" data-cat="recetas">
+        <span class="sidebar-icon">🥗</span> Recetas
+        <span class="sidebar-count" id="cnt-recetas">0</span>
+      </a>
+      <a href="#" class="sidebar-link" onclick="filterCat(event,'consejos')" data-cat="consejos">
+        <span class="sidebar-icon">💡</span> Consejos Pro
+        <span class="sidebar-count" id="cnt-consejos">0</span>
+      </a>
     </div>
-  </section>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">XHEN</span>
+      <a href="https://xhen.es" target="_blank" class="sidebar-link">
+        <span class="sidebar-icon">🛍️</span> Tienda Online
+      </a>
+      <a href="https://www.instagram.com/xhenspain" target="_blank" class="sidebar-link">
+        <span class="sidebar-icon">📸</span> Instagram
+      </a>
+    </div>
+    <a href="https://xhen.es" target="_blank" class="sidebar-tienda">Ir a la Tienda →</a>
+  </aside>
 
-  <div class="banner">
-    <h2>EQUÍPATE PARA COMPETIR</h2>
-    <p>Ropa y accesorios diseñados para atletas híbridos y carreras de obstáculos</p>
-    <a href="https://xhen.es" target="_blank" class="btn-rosa">IR A LA TIENDA</a>
-  </div>
-</div>
+  <!-- MAIN -->
+  <main class="main" id="mainContent">
 
-<div class="article-page" id="articlePage">
-  <div class="article-header">
-    <div class="article-header-inner">
-      <a href="index.html" class="back-link" onclick="showIndex(event)">← Volver al blog</a>
-      <div class="rosa-line"></div>
-      <h1 id="articleTitle"></h1>
-      <div class="article-header-meta">
-        <span id="articleDate"></span>
-        <span id="articleTag"></span>
+    <!-- INDEX PAGE -->
+    <div id="indexPage">
+      <div class="hero">
+        <img class="hero-logo" src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
+        <h1>BLOG</h1>
+        <p>Noticias, recetas y consejos para atletas híbridos, carreras de obstáculos y functional fitness.</p>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="cats-strip">
+        <button class="cat-tab active" onclick="filterCat(event,'all')" data-cat="all">📰 Todo</button>
+        <button class="cat-tab" onclick="filterCat(event,'noticias')" data-cat="noticias">🏆 Noticias</button>
+        <button class="cat-tab" onclick="filterCat(event,'recetas')" data-cat="recetas">🥗 Recetas</button>
+        <button class="cat-tab" onclick="filterCat(event,'consejos')" data-cat="consejos">💡 Consejos Pro</button>
+      </div>
+
+      <div class="content">
+        <div class="section-header">
+          <h2 class="section-title" id="sectionTitle">ÚLTIMAS ENTRADAS</h2>
+          <span class="section-count" id="sectionCount"></span>
+        </div>
+        <div class="articles-grid" id="articlesGrid"></div>
+        <div class="empty" id="emptyState" style="display:none">
+          <div class="empty-icon">📝</div>
+          <h3>PRÓXIMAMENTE</h3>
+          <p>Estamos preparando contenido para esta sección.</p>
+        </div>
+      </div>
+
+      <div class="banner">
+        <h2>EQUÍPATE PARA COMPETIR</h2>
+        <p>Ropa y accesorios para atletas híbridos y carreras de obstáculos</p>
+        <a href="https://xhen.es" target="_blank" class="btn-rosa">IR A LA TIENDA</a>
       </div>
     </div>
-  </div>
-  <img id="articleImg" class="article-img" src="" alt="" style="display:none">
-  <div class="article-body" id="articleBody"></div>
-  <div class="banner">
-    <h2>EQUÍPATE PARA COMPETIR</h2>
-    <p>Ropa y accesorios diseñados para atletas híbridos y carreras de obstáculos</p>
-    <a href="https://xhen.es" target="_blank" class="btn-rosa">IR A LA TIENDA</a>
-  </div>
+
+    <!-- ARTICLE PAGE -->
+    <div class="article-page" id="articlePage">
+      <div class="art-hero">
+        <div class="art-hero-inner">
+          <button class="back-btn" onclick="goBack()">← Volver al blog</button>
+          <div class="art-cat"><span class="card-cat-dot"></span><span id="artCat"></span></div>
+          <div class="rosa-line"></div>
+          <h1 id="artTitle"></h1>
+          <div class="art-meta" id="artDate"></div>
+        </div>
+      </div>
+      <img id="artImg" class="art-img" src="" alt="" style="display:none">
+      <div class="art-body" id="artBody"></div>
+      <div class="banner">
+        <h2>EQUÍPATE PARA COMPETIR</h2>
+        <p>Ropa y accesorios para atletas híbridos y carreras de obstáculos</p>
+        <a href="https://xhen.es" target="_blank" class="btn-rosa">IR A LA TIENDA</a>
+      </div>
+    </div>
+
+  </main>
 </div>
 
 <footer>
@@ -181,49 +333,138 @@
 </footer>
 
 <script>
+// ── ARTICLES DATA ──
 const articles = [
+  // ── NOTICIAS ──
   {
     id: "donde-entrenar-deka",
+    cat: "noticias",
+    catLabel: "Noticias",
     title: "¿Dónde entrenar DEKA?",
     date: "14 de diciembre de 2025",
-    tag: "DEKA",
-    excerpt: "Si estás buscando un nuevo desafío fitness que ponga a prueba tu fuerza, resistencia y determinación, DEKA es la respuesta. Descubre los centros de entrenamiento más cercanos.",
-    img: "https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png",
+    excerpt: "Si estás buscando un nuevo desafío fitness que ponga a prueba tu fuerza, resistencia y determinación, DEKA es la respuesta.",
+    img: "https://xhen.es/cdn/shop/articles/Captura_de_pantalla_2024-09-10_a_las_18.27.59.png?v=1725985846",
     featured: true,
-    content: `<p>Si estás buscando un nuevo desafío fitness que ponga a prueba tu fuerza, resistencia y determinación, DEKA es la respuesta.</p><h2>¿QUÉ ES DEKA?</h2><p>DEKA es una competición de fitness estandarizada creada por Spartan, diseñada para atletas de todos los niveles. Combina 10 zonas de entrenamiento funcional con carreras entre estaciones, creando un circuito completo de 5 kilómetros que desafía todo tu cuerpo.</p><p>Las 10 zonas incluyen ejercicios como remo, wall balls, box step-ups, sled push, y mucho más.</p><h2>¿POR QUÉ ENTRENAR DEKA?</h2><ul><li><strong>Estandarización:</strong> Todas las competiciones siguen el mismo formato, permitiendo comparar tu rendimiento a nivel global.</li><li><strong>Para todos los niveles:</strong> Desde principiantes hasta atletas élite.</li><li><strong>Entrenamiento completo:</strong> Trabaja fuerza, resistencia, potencia y habilidad mental.</li><li><strong>Comunidad:</strong> Miles de atletas en todo el mundo.</li></ul><h2>ENCUENTRA TU DEKA TRAINING CENTER</h2><p>En España y Portugal contamos con cientos de centros DEKA Training. Encuentra el más cercano en el mapa interactivo de la web oficial de DEKA.</p>`
+    content: `<p>Si estás buscando un nuevo desafío fitness que ponga a prueba tu fuerza, resistencia y determinación, DEKA es la respuesta.</p><h2>¿QUÉ ES DEKA?</h2><p>DEKA es una competición de fitness estandarizada creada por Spartan, diseñada para atletas de todos los niveles. Combina 10 zonas de entrenamiento funcional con carreras entre estaciones, creando un circuito completo de 5 kilómetros que desafía todo tu cuerpo.</p><p>Las 10 zonas incluyen ejercicios como remo, wall balls, box step-ups, sled push, y mucho más. Cada zona trabaja grupos musculares y habilidades diferentes.</p><h2>¿POR QUÉ ENTRENAR DEKA?</h2><ul><li><strong>Estandarización:</strong> Todas las competiciones siguen el mismo formato, permitiendo comparar tu rendimiento globalmente.</li><li><strong>Para todos los niveles:</strong> Desde principiantes hasta atletas élite.</li><li><strong>Entrenamiento completo:</strong> Fuerza, resistencia, potencia y habilidad mental en una sesión.</li><li><strong>Comunidad:</strong> Miles de atletas en todo el mundo.</li></ul><h2>ENCUENTRA TU DEKA TRAINING CENTER</h2><p>En España y Portugal contamos con cientos de centros DEKA Training. Encuentra el más cercano en el mapa interactivo de la web oficial de DEKA.</p>`
   },
   {
+    id: "que-es-deka",
+    cat: "noticias",
+    catLabel: "Noticias",
+    title: "¿Qué es DEKA y por qué deberías intentarlo?",
+    date: "10 de septiembre de 2024",
+    excerpt: "DEKA, desarrollado por Spartan, es un desafío de fitness funcional que evalúa resistencia, fuerza y habilidad atlética. Descubre sus formatos y cómo prepararte.",
+    img: "https://xhen.es/cdn/shop/articles/Captura_de_pantalla_2024-09-10_a_las_18.27.59.png?v=1725985846",
+    content: `<p>DEKA, desarrollado por Spartan, es un desafío de fitness funcional diseñado para medir tu rendimiento físico a través de pruebas estandarizadas. Evalúa resistencia, fuerza y habilidad atlética mediante zonas de ejercicios funcionales.</p><h2>FORMATOS DEKA</h2><ul><li><strong>DEKA STRONG:</strong> Sin carreras, solo zonas de fuerza.</li><li><strong>DEKA MILE:</strong> 1 milla + 10 zonas.</li><li><strong>DEKA FIT:</strong> 5 km + 10 zonas.</li></ul><h2>LAS 10 ZONAS DEKA</h2><ol><li>30 RAM Alt Reverse Lunges (25 kg / 15 kg)</li><li>Row: 500 metros</li><li>Box Jump / Step Overs: 20 repeticiones</li><li>Med Ball Sit-Up: 25 repeticiones</li><li>SkiErg: 500 metros</li><li>Farmers Carry: 100 metros</li><li>Burpee Broad Jump: 10 repeticiones</li><li>Wall Ball: 20 repeticiones</li><li>Sled Push: 25 metros</li><li>Sandbag Carry: 100 metros</li></ol><h2>BENEFICIOS</h2><ul><li><strong>Pruebas estandarizadas:</strong> Compara tu rendimiento globalmente.</li><li><strong>Mejora continua:</strong> Métricas precisas para medir tu progreso.</li><li><strong>Para todos los niveles:</strong> Ideal para principiantes y avanzados.</li></ul><h2>¿CÓMO PREPARARTE?</h2><p>Mejora en movimientos funcionales como empujar, saltar y levantar. Practica los ejercicios de las 10 zonas específicas de DEKA para llegar a tu competición en las mejores condiciones.</p>`
+  },
+  {
+    id: "beneficios-crossfit",
+    cat: "noticias",
+    catLabel: "Noticias",
+    title: "Los Increíbles Beneficios del CrossFit para tu Salud Física y Mental",
+    date: "24 de noviembre de 2024",
+    excerpt: "El CrossFit combina ejercicios funcionales de alta intensidad para transformar tu cuerpo y tu mente. Descubre por qué millones de personas lo practican.",
+    img: "https://xhen.es/cdn/shop/articles/DALL_E_2024-11-24_10.41.16_-_A_group_of_athletes_performing_Olympic_lifts_in_a_CrossFit_gym_box_showcasing_intensity_and_teamwork._The_environment_includes_weights_racks_and.webp?v=1732441337",
+    content: `<p>El CrossFit ha revolucionado el mundo del fitness. Combina ejercicios funcionales de alta intensidad para transformar tu cuerpo y tu mente.</p><h2>BENEFICIOS FÍSICOS</h2><ul><li><strong>Mejora la composición corporal:</strong> Reduce la grasa y aumenta la masa muscular.</li><li><strong>Aumenta la capacidad cardiovascular:</strong> Mejora el VO2 máx significativamente.</li><li><strong>Fuerza funcional:</strong> Movimientos diseñados para mejorar tu rendimiento cotidiano.</li><li><strong>Flexibilidad y movilidad:</strong> Trabaja la movilidad articular de forma integral.</li></ul><h2>BENEFICIOS MENTALES</h2><p>El CrossFit libera endorfinas, dopamina y serotonina durante y después del entrenamiento. Reduce el estrés y la ansiedad de forma significativa.</p><p>La comunidad del box es uno de los factores más poderosos: apoyo mutuo, competición sana y objetivos compartidos crean vínculos que van más allá del gimnasio.</p><h2>¿CÓMO EMPEZAR?</h2><p>La mayoría de boxes ofrecen clases de iniciación donde aprenderás los movimientos básicos de forma segura. No importa tu nivel: el CrossFit se escala para cada persona.</p>`
+  },
+  // ── CONSEJOS PRO ──
+  {
     id: "secreto-mejores-wod",
+    cat: "consejos",
+    catLabel: "Consejos Pro",
     title: "El secreto que los mejores aplican en cada WOD",
     date: "24 de mayo de 2025",
-    tag: "ENTRENAMIENTO",
-    excerpt: "Descubre el secreto de los atletas de élite: la preparación mental antes del WOD. Técnicas de respiración y visualización que mejorarán tu rendimiento.",
+    excerpt: "La preparación mental es tan importante como la física. Aprende las técnicas que usan los atletas de élite antes de cada sesión.",
     img: "https://xhen.es/cdn/shop/articles/CINTURONMUJERLEVANTANDO_a7f0a1c4-3c2e-4613-9e2e-3abce8f50a3a.png?v=1765665586",
     content: `<p>Los atletas de élite comparten un secreto: la batalla del WOD se gana antes de comenzar. La preparación mental es tan importante como la física.</p><h2>LA PREPARACIÓN MENTAL</h2><p>Antes de cada WOD, los mejores atletas dedican entre 5 y 10 minutos a preparar su mente: técnicas de respiración, visualización y establecimiento de objetivos.</p><h2>TÉCNICAS DE RESPIRACIÓN</h2><p>La respiración diafragmática activa el sistema nervioso parasimpático. Practica 4 tiempos de inspiración, 4 de retención y 6 de expiración antes de comenzar.</p><h2>VISUALIZACIÓN</h2><p>Cierra los ojos y visualiza cada movimiento del WOD. Los atletas que practican la visualización mejoran su rendimiento hasta un 23% según estudios recientes.</p><h2>ESTABLECE TU OBJETIVO</h2><p>Define un objetivo específico antes de cada WOD. La especificidad activa diferentes rutas neuronales y mejora el foco.</p>`
   },
   {
-    id: "beneficios-crossfit",
-    title: "Los Increíbles Beneficios del CrossFit para tu Salud",
-    date: "24 de noviembre de 2024",
-    tag: "CROSSFIT",
-    excerpt: "El CrossFit no es solo un entrenamiento, es un estilo de vida que transforma tu cuerpo y tu mente. Descubre todos sus beneficios.",
-    img: "https://xhen.es/cdn/shop/articles/DALL_E_2024-11-24_10.41.16_-_A_group_of_athletes_performing_Olympic_lifts_in_a_CrossFit_gym_box_showcasing_intensity_and_teamwork._The_environment_includes_weights_racks_and.webp?v=1732441337",
-    content: `<p>El CrossFit ha revolucionado el mundo del fitness. Combina ejercicios funcionales de alta intensidad para transformar tu cuerpo y tu mente.</p><h2>BENEFICIOS FÍSICOS</h2><ul><li><strong>Mejora la composición corporal:</strong> Reduce la grasa y aumenta la masa muscular.</li><li><strong>Aumenta la capacidad cardiovascular:</strong> Mejora el VO2 máx significativamente.</li><li><strong>Fuerza funcional:</strong> Movimientos diseñados para la vida cotidiana.</li><li><strong>Flexibilidad:</strong> Trabaja la movilidad articular de forma integral.</li></ul><h2>BENEFICIOS MENTALES</h2><p>El CrossFit libera endorfinas, dopamina y serotonina. Reduce el estrés y la ansiedad de forma significativa.</p><p>La comunidad del box es uno de los factores más poderosos: apoyo mutuo, competición sana y objetivos compartidos.</p><h2>¿CÓMO EMPEZAR?</h2><p>La mayoría de boxes ofrecen clases de iniciación. No importa tu nivel: el CrossFit se escala a cada persona.</p>`
+    id: "errores-crossfit",
+    cat: "consejos",
+    catLabel: "Consejos Pro",
+    title: "Los 10 Errores que Están Dañando tu Rendimiento en CrossFit",
+    date: "10 de septiembre de 2024",
+    excerpt: "Siempre buscamos mejorar y romper marcas personales. Pero hay errores comunes que frenan nuestro progreso. ¿Cuáles estás cometiendo?",
+    img: "https://xhen.es/cdn/shop/articles/053ba033-81c3-47ab-9b13-dc83f6844116.jpg?v=1725984578",
+    content: `<p>En el mundo del CrossFit siempre buscamos mejorar, romper marcas personales y llevar nuestro rendimiento al máximo. Sin embargo, hay errores comunes que frenan nuestro progreso sin que nos demos cuenta.</p><h2>LOS 10 ERRORES MÁS COMUNES</h2><ol><li><strong>Sacrificar la técnica por el tiempo:</strong> La velocidad sin técnica lleva a lesiones. Prioriza siempre la forma correcta.</li><li><strong>No calentar correctamente:</strong> Un calentamiento específico mejora el rendimiento y previene lesiones.</li><li><strong>Ignorar la movilidad:</strong> Dedica tiempo al trabajo de movilidad, especialmente caderas, hombros y tobillos.</li><li><strong>No respetar el descanso:</strong> El músculo crece durante el descanso, no durante el entrenamiento.</li><li><strong>Mala nutrición pericompetición:</strong> Lo que comes antes y después del WOD impacta directamente en tu rendimiento.</li><li><strong>Ego lifting:</strong> Poner más peso del que puedes manejar con técnica correcta.</li><li><strong>No escalar adecuadamente:</strong> El scaling existe para que el estímulo del WOD sea el correcto para ti.</li><li><strong>Descuidar el sueño:</strong> 7-9 horas de sueño son fundamentales para la recuperación.</li><li><strong>No hidratarse bien:</strong> Incluso una deshidratación del 2% reduce el rendimiento hasta un 20%.</li><li><strong>Compararse con los demás:</strong> Tu progreso es tuyo. Compárate solo con quien eras ayer.</li></ol>`
+  },
+  {
+    id: "consejos-competicion-crosstraining",
+    cat: "consejos",
+    catLabel: "Consejos Pro",
+    title: "5 Consejos para Mejorar tu Rendimiento en Competiciones de Crosstraining",
+    date: "10 de septiembre de 2024",
+    excerpt: "Participar en competiciones no es solo poner a prueba tus habilidades, sino también una oportunidad de crecer como atleta. Aquí los 5 claves.",
+    img: "https://xhen.es/cdn/shop/articles/top_camo_pantera.jpg?v=1725984094",
+    content: `<p>Participar en competiciones de crosstraining no es solo una oportunidad para poner a prueba tu fuerza y habilidades, sino también para crecer como atleta. Aquí tienes los 5 consejos clave:</p><h2>1. PLANIFICA TU PREPARACIÓN CON ANTELACIÓN</h2><p>Empieza a prepararte al menos 8-12 semanas antes de la competición. Trabaja las debilidades específicas que aparecerán en el evento.</p><h2>2. SIMULA LAS CONDICIONES DE COMPETICIÓN</h2><p>Entrena a la misma hora que será la competición. Practica con el mismo tipo de equipamiento y superficies cuando sea posible.</p><h2>3. DOMINA LA ESTRATEGIA DE RITMO</h2><p>Salir demasiado rápido es el error más común. Aprende a mantener un ritmo sostenible desde el inicio y conserva energía para los momentos clave.</p><h2>4. CUIDA LA NUTRICIÓN E HIDRATACIÓN</h2><p>La semana previa carga carbohidratos progresivamente. El día de la competición, come algo ligero 2-3 horas antes y mantente hidratado.</p><h2>5. GESTIONA LOS NERVIOS</h2><p>Los nervios son energía que puedes canalizar positivamente. Usa técnicas de respiración, escucha música motivadora y enfócate en lo que puedes controlar.</p>`
+  },
+  // ── RECETAS ──
+  {
+    id: "batido-recuperacion-post-wod",
+    cat: "recetas",
+    catLabel: "Recetas",
+    title: "Batido de Recuperación Post-WOD: La Fórmula Perfecta",
+    date: "15 de enero de 2026",
+    excerpt: "Después de un WOD intenso, tu cuerpo necesita los nutrientes correctos para recuperarse. Esta receta combina proteínas, carbohidratos y antioxidantes.",
+    img: "",
+    content: `<p>Después de un WOD intenso, la ventana anabólica de 30-60 minutos es clave para la recuperación. Este batido aporta exactamente lo que tu cuerpo necesita.</p><h2>INGREDIENTES (1 porción)</h2><ul><li>250 ml de leche de avena (o agua de coco)</li><li>1 scoop de proteína de suero o vegana</li><li>1 plátano maduro congelado</li><li>1 cucharada de mantequilla de almendra</li><li>1 cucharadita de cacao en polvo sin azúcar</li><li>1 cucharadita de miel</li><li>Hielo al gusto</li></ul><h2>PREPARACIÓN</h2><p>Mezcla todos los ingredientes en una batidora durante 30-45 segundos hasta obtener una textura cremosa. Consume en los primeros 30 minutos tras el entrenamiento.</p><h2>VALORES NUTRICIONALES (aprox.)</h2><ul><li><strong>Proteínas:</strong> 30-35g</li><li><strong>Carbohidratos:</strong> 45-50g</li><li><strong>Grasas saludables:</strong> 8-10g</li><li><strong>Calorías:</strong> ~380 kcal</li></ul><h2>VARIANTES</h2><p>Añade espinacas baby para un extra de hierro sin alterar el sabor. En verano, prepáralo con agua de coco para una hidratación extra con electrolitos naturales.</p>`
+  },
+  {
+    id: "bowl-proteico-atleta",
+    cat: "recetas",
+    catLabel: "Recetas",
+    title: "Bowl Proteico del Atleta: Desayuno Potente para Días de Entreno Duro",
+    date: "1 de marzo de 2026",
+    excerpt: "El desayuno más completo para atletas de alto rendimiento. Rico en proteínas, carbohidratos complejos y grasas saludables para aguantar el día.",
+    img: "",
+    content: `<p>Este bowl es el desayuno perfecto para días de WOD intenso o competición. Prepáralo la noche anterior si tienes poco tiempo por las mañanas.</p><h2>INGREDIENTES (1 porción)</h2><ul><li>80g de avena en copos</li><li>200ml de leche (animal o vegetal)</li><li>1 huevo entero + 2 claras revueltos</li><li>1/2 plátano en rodajas</li><li>1 puñado de frutos rojos</li><li>1 cucharada de semillas de chía</li><li>1 cucharadita de canela</li><li>Miel al gusto</li></ul><h2>PREPARACIÓN</h2><p>Cocina la avena con la leche durante 5 minutos a fuego medio. Mientras, prepara los huevos revueltos con un poco de aceite de oliva. Sirve la avena en un bowl y añade encima los huevos, la fruta y las semillas. Rocía con miel y canela.</p><h2>VALORES NUTRICIONALES (aprox.)</h2><ul><li><strong>Proteínas:</strong> 28-32g</li><li><strong>Carbohidratos:</strong> 65-70g</li><li><strong>Grasas:</strong> 10-12g</li><li><strong>Calorías:</strong> ~480 kcal</li></ul><p>Este desayuno aporta energía sostenida durante 3-4 horas, ideal para entrenamientos matutinos intensos.</p>`
   }
 ];
 
-function renderArticles() {
+// ── STATE ──
+let currentCat = 'all';
+let lastCat = 'all';
+let sidebarOpen = false;
+
+// ── COUNTS ──
+function updateCounts() {
+  const cats = ['all','noticias','recetas','consejos'];
+  cats.forEach(cat => {
+    const cnt = cat === 'all' ? articles.length : articles.filter(a => a.cat === cat).length;
+    const el = document.getElementById('cnt-' + cat);
+    if (el) el.textContent = cnt;
+  });
+}
+
+// ── RENDER ──
+function renderArticles(cat) {
+  const filtered = cat === 'all' ? articles : articles.filter(a => a.cat === cat);
   const grid = document.getElementById('articlesGrid');
-  grid.innerHTML = articles.map((a, i) => {
-    const featured = i === 0;
+  const empty = document.getElementById('emptyState');
+  const title = document.getElementById('sectionTitle');
+  const count = document.getElementById('sectionCount');
+
+  const labels = { all: 'ÚLTIMAS ENTRADAS', noticias: 'NOTICIAS', recetas: 'RECETAS', consejos: 'CONSEJOS PRO' };
+  title.textContent = labels[cat] || 'ENTRADAS';
+  count.textContent = filtered.length + ' artículos';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map((a, i) => {
+    const feat = i === 0 && cat === 'all';
     const imgHtml = a.img
       ? `<div class="card-img"><img src="${a.img}" alt="${a.title}" loading="lazy"></div>`
       : `<div class="card-img-placeholder"><span>XHEN</span></div>`;
-    return `<a href="#" class="article-card ${featured ? 'featured-card' : ''}" onclick="showArticle(event,'${a.id}')">
+    return `<a href="#" class="article-card${feat ? ' featured-card' : ''}" onclick="showArticle(event,'${a.id}')">
       ${imgHtml}
       <div class="card-body">
-        ${featured ? '<span class="featured-tag">DESTACADO</span>' : ''}
-        <div class="card-tag">${a.tag}</div>
+        ${feat ? '<span class="featured-badge">DESTACADO</span>' : ''}
+        <div class="card-cat"><span class="card-cat-dot"></span>${a.catLabel}</div>
         <h2 class="card-title">${a.title}</h2>
         <p class="card-excerpt">${a.excerpt}</p>
         <div class="card-meta"><span>${a.date}</span><span class="card-arrow">→</span></div>
@@ -232,30 +473,67 @@ function renderArticles() {
   }).join('');
 }
 
-function showIndex(e) {
+// ── NAVIGATION ──
+function filterCat(e, cat) {
   if (e) e.preventDefault();
-  document.getElementById('indexPage').classList.remove('hidden');
+  currentCat = cat;
+  lastCat = cat;
+
+  // Update active states
+  document.querySelectorAll('[data-cat]').forEach(el => {
+    el.classList.toggle('active', el.dataset.cat === cat);
+  });
+
+  showHome(null);
+  renderArticles(cat);
+  if (window.innerWidth <= 768) closeSidebar();
+}
+
+function showHome(e) {
+  if (e) e.preventDefault();
+  document.getElementById('indexPage').style.display = '';
   document.getElementById('articlePage').classList.remove('active');
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  showHome(null);
+  renderArticles(currentCat);
 }
 
 function showArticle(e, id) {
   e.preventDefault();
   const a = articles.find(x => x.id === id);
   if (!a) return;
-  document.getElementById('articleTitle').textContent = a.title;
-  document.getElementById('articleDate').textContent = a.date;
-  document.getElementById('articleTag').textContent = a.tag;
-  document.getElementById('articleBody').innerHTML = a.content;
-  const img = document.getElementById('articleImg');
+  document.getElementById('artTitle').textContent = a.title;
+  document.getElementById('artDate').textContent = a.date;
+  document.getElementById('artCat').textContent = a.catLabel;
+  document.getElementById('artBody').innerHTML = a.content;
+  const img = document.getElementById('artImg');
   if (a.img) { img.src = a.img; img.alt = a.title; img.style.display = 'block'; }
   else { img.style.display = 'none'; }
-  document.getElementById('indexPage').classList.add('hidden');
+  document.getElementById('indexPage').style.display = 'none';
   document.getElementById('articlePage').classList.add('active');
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
-renderArticles();
+// ── SIDEBAR ──
+function toggleSidebar() {
+  sidebarOpen = !sidebarOpen;
+  document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
+  document.getElementById('overlay').classList.toggle('open', sidebarOpen);
+  document.getElementById('hamburger').classList.toggle('open', sidebarOpen);
+}
+function closeSidebar() {
+  sidebarOpen = false;
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ── INIT ──
+updateCounts();
+renderArticles('all');
 </script>
 </body>
 </html>
