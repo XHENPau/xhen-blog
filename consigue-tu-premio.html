@@ -17,7 +17,6 @@
       --texto: #F0F0F0;
       --muted: #777;
     }
-
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--negro);
@@ -28,179 +27,42 @@
       justify-content: center;
       padding: 2rem 1rem;
     }
-
-    .wrap {
-      width: 100%;
-      max-width: 440px;
-    }
-
-    /* Header */
-    .logo-wrap {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-    .logo-wrap img {
-      height: 36px;
-      filter: brightness(0) invert(1);
-    }
-
-    .card {
-      background: var(--gris);
-      border: 1px solid var(--gris2);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .card-top {
-      background: var(--rosa);
-      padding: 2rem 2rem 1.75rem;
-      text-align: center;
-    }
-    .prize-icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.75rem;
-    }
-    .card-top h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.4rem;
-      letter-spacing: 3px;
-      line-height: 1;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-    .card-top p {
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.8);
-      font-weight: 300;
-      line-height: 1.5;
-    }
-
-    .card-body {
-      padding: 2rem;
-    }
-
-    .field {
-      margin-bottom: 1.1rem;
-    }
-    .field label {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.45rem;
-    }
-    .field input {
-      width: 100%;
-      background: var(--negro);
-      border: 1px solid var(--gris2);
-      border-radius: 8px;
-      padding: 0.8rem 1rem;
-      color: var(--texto);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      transition: border-color 0.2s;
-    }
-    .field input:focus {
-      outline: none;
-      border-color: var(--rosa);
-    }
-    .field input::placeholder {
-      color: rgba(255,255,255,0.15);
-    }
-
-    .legal {
-      font-size: 0.68rem;
-      color: var(--muted);
-      line-height: 1.5;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .legal a {
-      color: var(--rosa);
-      text-decoration: none;
-    }
-
-    .btn-listo {
-      width: 100%;
-      background: var(--rosa);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 1rem;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 3px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-    }
+    .wrap { width: 100%; max-width: 440px; }
+    .logo-wrap { text-align: center; margin-bottom: 2.5rem; }
+    .logo-wrap img { height: 36px; filter: brightness(0) invert(1); }
+    .card { background: var(--gris); border: 1px solid var(--gris2); border-radius: 14px; overflow: hidden; }
+    .card-top { background: var(--rosa); padding: 2rem 2rem 1.75rem; text-align: center; }
+    .prize-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .card-top h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; letter-spacing: 3px; line-height: 1; color: #fff; margin-bottom: 0.5rem; }
+    .card-top p { font-size: 0.875rem; color: rgba(255,255,255,0.8); font-weight: 300; line-height: 1.5; }
+    .card-body { padding: 2rem; }
+    .field { margin-bottom: 1.1rem; }
+    .field label { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.45rem; }
+    .field input { width: 100%; background: var(--negro); border: 1px solid var(--gris2); border-radius: 8px; padding: 0.8rem 1rem; color: var(--texto); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; transition: border-color 0.2s; }
+    .field input:focus { outline: none; border-color: var(--rosa); }
+    .field input::placeholder { color: rgba(255,255,255,0.15); }
+    .legal { font-size: 0.68rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.5rem; text-align: center; }
+    .legal a { color: var(--rosa); text-decoration: none; }
+    .btn-listo { width: 100%; background: var(--rosa); color: #fff; border: none; border-radius: 8px; padding: 1rem; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; cursor: pointer; transition: background 0.2s, transform 0.1s; }
     .btn-listo:hover { background: var(--rosa-dark); }
     .btn-listo:active { transform: scale(0.99); }
     .btn-listo:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .error-msg {
-      color: #ff5555;
-      font-size: 0.75rem;
-      text-align: center;
-      margin-top: 0.75rem;
-      display: none;
-    }
-
-    /* Pantalla de éxito */
-    .success {
-      display: none;
-      text-align: center;
-      padding: 3rem 2rem;
-    }
+    .error-msg { color: #ff5555; font-size: 0.75rem; text-align: center; margin-top: 0.75rem; display: none; }
+    .success { display: none; text-align: center; padding: 3rem 2rem; }
     .success-icon { font-size: 3.5rem; margin-bottom: 1rem; }
-    .success h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 3px;
-      color: var(--rosa);
-      margin-bottom: 0.5rem;
-    }
-    .success p {
-      color: var(--muted);
-      font-size: 0.875rem;
-      line-height: 1.6;
-      font-weight: 300;
-      margin-bottom: 1.5rem;
-    }
-    .success .numero {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4rem;
-      color: #fff;
-      letter-spacing: 4px;
-      line-height: 1;
-      margin: 0.5rem 0 1.5rem;
-    }
-    .btn-tienda {
-      display: block;
-      background: var(--rosa);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.875rem;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
+    .success h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 3px; color: var(--rosa); margin-bottom: 0.5rem; }
+    .success p { color: var(--muted); font-size: 0.875rem; line-height: 1.6; font-weight: 300; margin-bottom: 1.5rem; }
+    .success .numero { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: #fff; letter-spacing: 4px; line-height: 1; margin: 0.5rem 0 1.5rem; }
+    .btn-tienda { display: block; background: var(--rosa); color: #fff; border: none; border-radius: 8px; padding: 0.875rem; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; text-decoration: none; transition: background 0.2s; }
     .btn-tienda:hover { background: var(--rosa-dark); }
   </style>
 </head>
 <body>
-
 <div class="wrap">
   <div class="logo-wrap">
     <img src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
   </div>
-
   <div class="card">
-    <!-- Formulario -->
     <div id="form-view">
       <div class="card-top">
         <div class="prize-icon">🎁</div>
@@ -220,17 +82,13 @@
           <label>Teléfono</label>
           <input type="tel" id="telefono" placeholder="+34 600 000 000" autocomplete="tel">
         </div>
-
         <div class="legal">
           Al pulsar LISTO aceptas que tus datos sean tratados con fines publicitarios por XHEN Military & Sports. <a href="https://xhen.es/policies/privacy-policy" target="_blank">Política de privacidad</a>.
         </div>
-
         <button class="btn-listo" id="btn-listo" onclick="enviar()">LISTO</button>
         <div class="error-msg" id="error-msg">Por favor completa todos los campos.</div>
       </div>
     </div>
-
-    <!-- Éxito -->
     <div class="success" id="success-view">
       <div class="success-icon">🏆</div>
       <h2>¡PREMIO<br>CONSEGUIDO!</h2>
@@ -256,7 +114,6 @@ async function enviar() {
   }
   errorEl.style.display = "none";
 
-  // Separar nombre y apellidos
   const partes = nombreCompleto.split(" ");
   const nombre = partes[0];
   const apellido = partes.slice(1).join(" ") || "-";
@@ -271,25 +128,21 @@ async function enviar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         nombre, apellido, email, telefono,
-        deporte: "—",
-        nivel: "—",
+        deporte: "Lead Instagram",
+        nivel: "Sin especificar",
         objetivo: "Premio Instagram",
         como_nos_conocio: "Instagram",
         acepta_marketing: true
       })
     });
-
     const data = await res.json();
     const numero = data.numero || Math.floor(Math.random() * 999) + 1;
     document.getElementById("success-numero").textContent = "#" + String(numero).padStart(4, "0");
-
   } catch(e) {
-    // Aunque falle el servidor mostramos éxito al usuario
     const numero = Math.floor(Math.random() * 999) + 1;
     document.getElementById("success-numero").textContent = "#" + String(numero).padStart(4, "0");
   }
 
-  // Mostrar éxito
   document.getElementById("form-view").style.display = "none";
   document.getElementById("success-view").style.display = "block";
 }
