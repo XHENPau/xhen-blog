@@ -96,11 +96,35 @@
       <p>Este es tu número de atleta XHEN exclusivo. En breve recibirás un mensaje con tu premio.</p>
       <a href="https://xhen.es" class="btn-tienda">IR A LA TIENDA →</a>
     </div>
+    <div class="success" id="duplicado-view" style="display:none">
+      <div class="success-icon">ℹ️</div>
+      <h2>YA ESTÁS<br>REGISTRADO</h2>
+      <p style="margin-top:1rem">Este email ya se había registrado anteriormente.<br>Si necesitas ayuda con tu premio, escríbenos por Instagram <a href="https://instagram.com/xhenspain" style="color:var(--rosa)">@xhenspain</a>.</p>
+      <a href="https://xhen.es" class="btn-tienda">IR A LA TIENDA →</a>
+    </div>
+    <div class="success" id="error-view" style="display:none">
+      <div class="success-icon">⚠️</div>
+      <h2>NO PUDIMOS<br>REGISTRARTE</h2>
+      <p style="margin-top:1rem">Ha habido un problema temporal. Por favor inténtalo de nuevo en un momento o escríbenos por Instagram <a href="https://instagram.com/xhenspain" style="color:var(--rosa)">@xhenspain</a>.</p>
+      <button class="btn-tienda" onclick="reintentar()" style="cursor:pointer">REINTENTAR</button>
+    </div>
   </div>
 </div>
 
 <script>
 const WEBHOOK = "https://sharpness-sitting-armadillo.ngrok-free.dev/lead";
+
+function mostrarVista(id) {
+  ['form-view', 'success-view', 'duplicado-view', 'error-view'].forEach(v => {
+    document.getElementById(v).style.display = (v === id) ? 'block' : 'none';
+  });
+}
+
+function reintentar() {
+  document.getElementById('btn-listo').disabled = false;
+  document.getElementById('btn-listo').textContent = 'LISTO';
+  mostrarVista('form-view');
+}
 
 async function enviar() {
   const nombreCompleto = document.getElementById("nombre").value.trim();
@@ -136,15 +160,21 @@ async function enviar() {
       })
     });
     const data = await res.json();
-    const numero = data.numero || Math.floor(Math.random() * 999) + 1;
-    document.getElementById("success-numero").textContent = "#" + String(numero).padStart(4, "0");
-  } catch(e) {
-    const numero = Math.floor(Math.random() * 999) + 1;
-    document.getElementById("success-numero").textContent = "#" + String(numero).padStart(4, "0");
-  }
 
-  document.getElementById("form-view").style.display = "none";
-  document.getElementById("success-view").style.display = "block";
+    if (data.duplicado === true) {
+      mostrarVista('duplicado-view');
+      return;
+    }
+    if (data.ok === true && data.numero) {
+      document.getElementById("success-numero").textContent = "#" + String(data.numero).padStart(4, "0");
+      mostrarVista('success-view');
+      return;
+    }
+    // Si llega aqui, la respuesta no es ni duplicado ni exito -> error
+    mostrarVista('error-view');
+  } catch(e) {
+    mostrarVista('error-view');
+  }
 }
 </script>
 </body>
