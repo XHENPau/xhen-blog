@@ -328,6 +328,8 @@ function findFlexMin(idx,sexo){
 }
 function findFlexMax(idx,sexo){
   const t=sexo==='M'?FLEX_M[idx]:FLEX_F[idx];
+  const entries=Object.entries(t).map(([k,v])=>({k:parseInt(k),v})).sort((a,b)=>a.k-b.k);
+  for(const e of entries)if(e.v>=100)return e.k;
   return Math.max(...Object.keys(t).map(Number));
 }
 
@@ -344,7 +346,12 @@ function getCarreraPts(secs,idx,sexo){
   for(let i=0;i<base.length;i++)if(adj<=base[i][0])return base[i][1];
   return 0;
 }
-function carreraMax(idx,sexo){const mult=sexo==='M'?CARR_MULT_M[idx]:CARR_MULT_F[idx];const b=sexo==='M'?CARR_M:CARR_F;return Math.round(b[0][0]*mult);}
+function carreraMax(idx,sexo){
+  const mult=sexo==='M'?CARR_MULT_M[idx]:CARR_MULT_F[idx];
+  const b=sexo==='M'?CARR_M:CARR_F;
+  for(let i=0;i<b.length;i++)if(b[i][1]>=100)return Math.round(b[i][0]*mult);
+  return Math.round(b[0][0]*mult);
+}
 function carreraMin(idx,sexo){
   const mult=sexo==='M'?CARR_MULT_M[idx]:CARR_MULT_F[idx];
   const b=sexo==='M'?CARR_M:CARR_F;
@@ -358,6 +365,8 @@ function getAgilPts(secs,idx,sexo){
   return 0;
 }
 function agilMin(idx,sexo){const col=idx*2+(sexo==='M'?1:2);for(let i=AGIL.length-1;i>=0;i--)if(AGIL[i][col]>=20)return AGIL[i][0];return 0;}
+function agilMax100(idx,sexo){const col=idx*2+(sexo==='M'?1:2);for(let i=0;i<AGIL.length;i++)if(AGIL[i][col]>=100)return AGIL[i][0];return AGIL[0][0];}
+function planchaMax100(idx){for(let i=0;i<PLANCHA.length;i++)if(PLANCHA[i][idx+1]>=100)return PLANCHA[i][0];return 315;}
 
 function vals(){
   return {
@@ -433,9 +442,11 @@ function render(){
   const fMin=findFlexMin(idx,sexo);
   const fMax=findFlexMax(idx,sexo);
   const pMin=fmtTime(planchaMin(idx));
+  const pMax=fmtTime(planchaMax100(idx));
   const cMin=fmtTime(carreraMin(idx,sexo));
   const cMax=fmtTime(carreraMax(idx,sexo));
   const aMin=agilAplica?agilMin(idx,sexo).toFixed(1):'—';
+  const aMax=agilAplica?agilMax100(idx,sexo).toFixed(1):'—';
 
   document.getElementById('bloques').innerHTML=`
   <div class="prueba-card" id="card-flex">
@@ -452,12 +463,12 @@ function render(){
         <div class="ref-val min">${fMin} rep</div>
       </div>
       <div class="ref-box">
-        <div class="ref-etiq max">Máximo (100 pts)</div>
+        <div class="ref-etiq max">100 puntos desde</div>
         <div class="ref-val max">${fMax} rep</div>
       </div>
       <div class="input-group">
         <label>Tu marca (repeticiones)</label>
-        <input type="number" id="inp-flex" min="0" max="100" placeholder="ej: 35" value="${v.flex}" oninput="update()">
+        <input type="number" id="inp-flex" min="0" max="100" placeholder="ej: 35 repeticiones" value="${v.flex}" oninput="update()">
         <div class="pts-row">
           <span class="pts-num" id="pts-flex">—</span>
           <span class="pts-label">puntos</span>
@@ -480,11 +491,11 @@ function render(){
         <div class="ref-val min">${pMin}</div>
       </div>
       <div class="ref-box">
-        <div class="ref-etiq max">Máximo (100 pts)</div>
-        <div class="ref-val max">5:15</div>
+        <div class="ref-etiq max">100 puntos desde</div>
+        <div class="ref-val max">${pMax}</div>
       </div>
       <div class="input-group">
-        <label>Tu marca (mm:ss)</label>
+        <label>Tu marca (m:ss)</label>
         <input type="text" id="inp-plancha" placeholder="ej: 1:30" value="${v.plancha}" oninput="update()">
         <div class="pts-row">
           <span class="pts-num" id="pts-plancha">—</span>
@@ -508,7 +519,7 @@ function render(){
         <div class="ref-val min">${cMin}</div>
       </div>
       <div class="ref-box">
-        <div class="ref-etiq max">Óptimo (100 pts)</div>
+        <div class="ref-etiq max">100 puntos hasta</div>
         <div class="ref-val max">${cMax}</div>
       </div>
       <div class="input-group">
@@ -536,12 +547,12 @@ function render(){
         <div class="ref-val min">${aMin}s</div>
       </div>
       <div class="ref-box">
-        <div class="ref-etiq max">Óptimo (100 pts)</div>
-        <div class="ref-val max">11.6s</div>
+        <div class="ref-etiq max">100 puntos hasta</div>
+        <div class="ref-val max">${aMax}s</div>
       </div>
       <div class="input-group">
         <label>Tu marca (segundos)</label>
-        <input type="number" id="inp-agil" step="0.1" min="10" max="25" placeholder="ej: 14.5" value="${v.agil}" oninput="update()">
+        <input type="number" id="inp-agil" step="0.1" min="10" max="25" placeholder="ej: 14,5 seg" value="${v.agil}" oninput="update()">
         <div class="pts-row">
           <span class="pts-num" id="pts-agil">—</span>
           <span class="pts-label">puntos</span>
