@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora PAFA — XHEN Blog</title>
+<meta name="description" content="Calculadora oficial de pruebas físicas de las Fuerzas Armadas españolas (Orden DEF/15/2026). Comprueba tu puntuación en flexiones, plancha, carrera y agilidad.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --rosa: #E8197A; --rosa-dark: #c01265; --rosa-light: #fce4ef;
+  --negro: #0A0A0A;
+  --gris: #F5F5F5; --gris2: #E8E8E8; --gris3: #CCCCCC;
+  --texto: #1A1A1A; --texto-muted: #666; --blanco: #ffffff;
+  --verde: #1D9E75; --verde-light: #E1F5EE; --verde-dark: #0F6E56;
+  --naranja: #D85A30; --naranja-light: #FAECE7; --naranja-dark: #712B13;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--blanco); color: var(--texto); min-height: 100vh; }
+
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(255,255,255,0.97); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gris2);
+  padding: 0 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px; gap: 1rem;
+}
+.nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+.nav-logo img { height: 26px; }
+.nav-logo span { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--negro); letter-spacing: 2px; }
+.nav-back { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--texto-muted); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.5px; transition: color 0.2s; }
+.nav-back:hover { color: var(--rosa); }
+.btn-tienda { background: var(--rosa); color: var(--blanco); padding: 0.45rem 1.1rem; border-radius: 4px; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.5px; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+.btn-tienda:hover { background: var(--rosa-dark); }
+
+.hero {
+  background: var(--negro); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% -20%, rgba(232,25,122,0.22) 0%, transparent 65%); }
+.hero-logo { height: 44px; display: block; margin: 0 auto 1rem; filter: brightness(0) invert(1); position: relative; }
+.hero-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--rosa); margin-bottom: 0.5rem; position: relative; }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 4px; color: var(--blanco); margin-bottom: 0.75rem; position: relative; }
+.hero p { color: rgba(255,255,255,0.5); font-size: 0.875rem; max-width: 480px; margin: 0 auto; line-height: 1.6; font-weight: 300; position: relative; }
+.rosa-line { height: 3px; background: var(--rosa); width: 36px; margin: 1rem auto 0; position: relative; }
+
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+.perfil-card {
+  background: var(--gris); border-radius: 10px; padding: 1.5rem;
+  display: flex; align-items: flex-end; gap: 1rem; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.perfil-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-muted); display: block; margin-bottom: 0.4rem; }
+.perfil-card select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 500;
+  border: 1.5px solid var(--gris3); border-radius: 6px;
+  padding: 0.55rem 0.9rem; background: var(--blanco); color: var(--texto);
+  cursor: pointer; transition: border-color 0.2s; min-width: 160px;
+}
+.perfil-card select:focus { outline: none; border-color: var(--rosa); }
+
+.section-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem; letter-spacing: 3px; color: var(--negro);
+  margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--gris2); }
+
+.prueba-card {
+  background: var(--blanco); border: 1px solid var(--gris2); border-radius: 10px;
+  padding: 1.25rem 1.5rem; margin-bottom: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.prueba-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+.prueba-card.apto { border-color: var(--verde); background: var(--verde-light); }
+.prueba-card.noapto { border-color: var(--naranja); background: var(--naranja-light); }
+.prueba-card.inactiva { opacity: 0.4; pointer-events: none; }
+
+.prueba-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.prueba-title-group {}
+.prueba-titulo { font-size: 1rem; font-weight: 700; color: var(--negro); margin-bottom: 0.2rem; }
+.prueba-desc { font-size: 0.78rem; color: var(--texto-muted); font-weight: 300; }
+.prueba-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 99px; white-space: nowrap; }
+.prueba-badge.apto-b { background: var(--verde); color: var(--blanco); }
+.prueba-badge.noapto-b { background: var(--naranja); color: var(--blanco); }
+.prueba-badge.nd-b { background: var(--gris2); color: var(--texto-muted); }
+.prueba-badge.na-b { background: var(--negro); color: rgba(255,255,255,0.5); }
+
+.refs-input { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 12px; align-items: end; }
+@media (max-width: 600px) { .refs-input { grid-template-columns: 1fr 1fr; } }
+
+.ref-box { background: var(--gris); border-radius: 8px; padding: 10px 12px; text-align: center; }
+.ref-etiq { font-size: 0.62rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.ref-etiq.min { color: var(--naranja-dark); }
+.ref-etiq.max { color: var(--verde-dark); }
+.ref-val { font-size: 1.1rem; font-weight: 700; }
+.ref-val.min { color: var(--naranja); }
+.ref-val.max { color: var(--verde); }
+
+.input-group { display: flex; flex-direction: column; gap: 4px; }
+.input-group label { font-size: 0.72rem; font-weight: 500; color: var(--texto-muted); letter-spacing: 0.5px; }
+.input-group input {
+  font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 500;
+  border: 1.5px solid var(--gris3); border-radius: 6px;
+  padding: 0.6rem 0.9rem; color: var(--texto); background: var(--blanco);
+  transition: border-color 0.2s; width: 100%;
+}
+.input-group input:focus { outline: none; border-color: var(--rosa); }
+.input-group input::placeholder { color: var(--gris3); font-weight: 400; }
+
+.pts-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.pts-num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 1px; color: var(--negro); line-height: 1; }
+.pts-num.apto { color: var(--verde-dark); }
+.pts-num.noapto { color: var(--naranja-dark); }
+.pts-label { font-size: 0.75rem; color: var(--texto-muted); }
+
+.prueba-card.inactiva .prueba-titulo { color: var(--texto-muted); }
+.na-msg { font-size: 0.8rem; color: var(--texto-muted); font-style: italic; }
+
+.resumen-strip {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px; margin-top: 2rem;
+}
+.res-card { background: var(--gris); border-radius: 8px; padding: 1rem 1.25rem; text-align: center; }
+.res-card .rl { font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-muted); margin-bottom: 4px; }
+.res-card .rv { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 2px; color: var(--negro); }
+.res-card .rv.ok { color: var(--verde-dark); }
+.res-card .rv.ko { color: var(--naranja-dark); }
+
+.global-banner { margin-top: 2rem; border-radius: 10px; padding: 1.5rem 2rem; text-align: center; }
+.global-banner.ok { background: var(--verde-light); border: 1.5px solid var(--verde); }
+.global-banner.ko { background: var(--naranja-light); border: 1.5px solid var(--naranja); }
+.global-banner.nd { background: var(--gris); border: 1px solid var(--gris2); }
+.global-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 4px; }
+.global-banner.ok .global-titulo { color: var(--verde-dark); }
+.global-banner.ko .global-titulo { color: var(--naranja-dark); }
+.global-banner.nd .global-titulo { color: var(--texto-muted); }
+.global-sub { font-size: 0.82rem; color: var(--texto-muted); margin-top: 4px; font-weight: 300; }
+
+.boe-note { margin-top: 2rem; font-size: 0.72rem; color: var(--texto-muted); text-align: center; line-height: 1.6; }
+.boe-note a { color: var(--rosa); text-decoration: none; }
+.boe-note a:hover { text-decoration: underline; }
+
+.banner-tienda { background: var(--negro); padding: 3rem 2rem; text-align: center; margin-top: 4rem; }
+.banner-tienda h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); letter-spacing: 3px; color: var(--blanco); margin-bottom: 0.5rem; }
+.banner-tienda p { color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; font-weight: 300; font-size: 0.9rem; }
+.btn-rosa { display: inline-block; background: var(--rosa); color: var(--blanco); padding: 0.75rem 2rem; border-radius: 4px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; font-size: 0.82rem; transition: transform 0.2s, background 0.2s; }
+.btn-rosa:hover { transform: translateY(-2px); background: var(--rosa-dark); }
+
+footer { background: var(--gris); border-top: 1px solid var(--gris2); padding: 2rem 1.5rem; }
+.footer-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo img { height: 22px; }
+.footer-text { font-size: 0.75rem; color: var(--texto-muted); }
+.footer-links { display: flex; gap: 1.5rem; list-style: none; }
+.footer-links a { font-size: 0.75rem; color: var(--texto-muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--rosa); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://blog.xhen.es" class="nav-logo">
+    <img src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
+    <span>BLOG</span>
+  </a>
+  <a href="https://blog.xhen.es" class="nav-back">← Volver al blog</a>
+  <a href="https://xhen.es" target="_blank" class="btn-tienda">Ir a la Tienda →</a>
+</nav>
+
+<div class="hero">
+  <img class="hero-logo" src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN">
+  <div class="hero-eyebrow">Pruebas Físicas · Fuerzas Armadas</div>
+  <h1>Calculadora PAFA</h1>
+  <p>Comprueba tu puntuación según la Orden DEF/15/2026. Introduce tus marcas y descubre si superas el baremo.</p>
+  <div class="rosa-line"></div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="perfil-card">
+    <div>
+      <span class="perfil-label">Sexo</span>
+      <select id="sexo" onchange="render()">
+        <option value="M">Hombre</option>
+        <option value="F">Mujer</option>
+      </select>
+    </div>
+    <div>
+      <span class="perfil-label">Grupo de edad</span>
+      <select id="edad" onchange="render()">
+        <option value="0">17–25 años</option>
+        <option value="1">26–30 años</option>
+        <option value="2">31–35 años</option>
+        <option value="3">36–40 años</option>
+        <option value="4">41–45 años</option>
+        <option value="5">46–50 años</option>
+        <option value="6">51–55 años</option>
+        <option value="7">56–59 años</option>
+        <option value="8">60 o más</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section-label">Pruebas físicas</div>
+
+  <div id="bloques"></div>
+
+  <div class="resumen-strip">
+    <div class="res-card"><div class="rl">Pruebas</div><div class="rv" id="r-num">0 / 0</div></div>
+    <div class="res-card"><div class="rl">Puntuación media</div><div class="rv" id="r-media">—</div></div>
+    <div class="res-card"><div class="rl">Aptos / No aptos</div><div class="rv" id="r-ratio">—</div></div>
+  </div>
+
+  <div class="global-banner nd" id="global-banner">
+    <div class="global-titulo" id="global-titulo">—</div>
+    <div class="global-sub" id="global-sub">Introduce al menos una marca para ver el resultado</div>
+  </div>
+
+  <p class="boe-note">
+    Baremo oficial según <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-1379" target="_blank">Orden DEF/15/2026 (BOE 21 enero 2026)</a>.<br>
+    Mínimo 20 puntos en cada prueba para obtener la calificación de APTO. El circuito de agilidad-velocidad no se realiza a partir de los 46 años.
+  </p>
+
+</div>
+
+<div class="banner-tienda">
+  <h2>EQUÍPATE PARA COMPETIR</h2>
+  <p>Ropa y accesorios para atletas híbridos y carreras de obstáculos</p>
+  <a href="https://xhen.es" target="_blank" class="btn-rosa">IR A LA TIENDA</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="https://xhen.es/cdn/shop/files/LOGO_XHEN_ROSA.png?v=1722756502" alt="XHEN"></div>
+    <span class="footer-text">© 2026 XHEN Military & Sports</span>
+    <ul class="footer-links">
+      <li><a href="https://xhen.es" target="_blank">Tienda</a></li>
+      <li><a href="https://www.instagram.com/xhenspain" target="_blank">Instagram</a></li>
+      <li><a href="https://xhen.es/policies/privacy-policy" target="_blank">Privacidad</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+const FLEX_M=[
+  {73:100,72:100,71:99,70:98,69:97,68:96,67:95,66:94,65:93,64:92,63:91,62:90,61:89,60:88,59:87,58:86,57:85,56:84,55:83,54:82,53:81,52:80,51:79,50:78,49:77,48:76,47:75,46:74,45:72,44:70,43:68,42:66,41:64,40:62,39:60,38:58,37:56,36:54,35:52,34:50,33:48,32:46,31:44,30:42,29:40,28:38,27:36,26:34,25:32,24:30,23:29,22:28,21:27,20:26,19:25,18:24,17:23,16:22,15:21,14:20,13:18,12:16,11:14,10:12,9:10,8:9,7:8,6:7,5:6,4:5,3:4,2:3,1:2,0:1},
+  {73:100,72:100,71:100,70:99,69:98,68:97,67:96,66:95,65:94,64:93,63:92,62:91,61:90,60:89,59:88,58:87,57:86,56:85,55:84,54:83,53:82,52:81,51:80,50:79,49:78,48:77,47:76,46:75,45:74,44:72,43:70,42:68,41:66,40:64,39:62,38:60,37:58,36:56,35:54,34:52,33:50,32:48,31:46,30:44,29:42,28:40,27:38,26:36,25:34,24:32,23:30,22:29,21:28,20:27,19:26,18:25,17:24,16:23,15:22,14:21,13:20,12:18,11:16,10:14,9:12,8:10,7:9,6:8,5:6,4:5,3:4,2:3,1:2,0:1},
+  {73:100,72:100,71:100,70:100,69:99,68:98,67:97,66:96,65:95,64:94,63:93,62:92,61:91,60:90,59:89,58:88,57:87,56:86,55:85,54:84,53:83,52:82,51:81,50:80,49:79,48:78,47:77,46:76,45:75,44:74,43:72,42:70,41:68,40:66,39:64,38:62,37:60,36:58,35:56,34:54,33:52,32:50,31:48,30:46,29:44,28:42,27:40,26:38,25:36,24:34,23:32,22:30,21:29,20:28,19:27,18:26,17:25,16:24,15:23,14:22,13:21,12:20,11:18,10:16,9:14,8:12,7:10,6:9,5:8,4:6,3:5,2:4,1:3,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:99,67:98,66:97,65:96,64:95,63:94,62:93,61:92,60:91,59:90,58:89,57:88,56:87,55:86,54:85,53:84,52:83,51:82,50:81,49:80,48:79,47:78,46:77,45:76,44:75,43:74,42:72,41:70,40:68,39:66,38:64,37:62,36:60,35:58,34:56,33:54,32:52,31:50,30:48,29:46,28:44,27:42,26:40,25:38,24:36,23:34,22:32,21:30,20:29,19:28,18:27,17:26,16:25,15:24,14:23,13:22,12:21,11:20,10:18,9:16,8:14,7:12,6:10,5:9,4:8,3:6,2:4,1:3,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:99,66:98,65:97,64:96,63:95,62:94,61:93,60:92,59:91,58:90,57:89,56:88,55:87,54:86,53:85,52:84,51:83,50:82,49:81,48:80,47:79,46:78,45:77,44:76,43:75,42:74,41:72,40:70,39:68,38:66,37:64,36:62,35:60,34:58,33:56,32:54,31:52,30:50,29:48,28:46,27:44,26:42,25:40,24:38,23:36,22:34,21:32,20:30,19:29,18:28,17:27,16:26,15:25,14:24,13:23,12:22,11:21,10:20,9:18,8:16,7:14,6:12,5:10,4:9,3:8,2:6,1:4,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:99,65:98,64:97,63:96,62:95,61:94,60:93,59:92,58:91,57:90,56:89,55:88,54:87,53:86,52:85,51:84,50:83,49:82,48:81,47:80,46:79,45:78,44:77,43:76,42:75,41:74,40:72,39:70,38:68,37:66,36:64,35:62,34:60,33:58,32:56,31:54,30:52,29:50,28:48,27:46,26:44,25:42,24:40,23:38,22:36,21:34,20:32,19:30,18:29,17:28,16:27,15:26,14:25,13:24,12:23,11:22,10:21,9:20,8:18,7:16,6:14,5:12,4:10,3:9,2:8,1:6,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:99,64:98,63:97,62:96,61:95,60:94,59:93,58:92,57:91,56:90,55:89,54:88,53:87,52:86,51:85,50:84,49:83,48:82,47:81,46:80,45:79,44:78,43:77,42:76,41:75,40:74,39:72,38:70,37:68,36:66,35:64,34:62,33:60,32:58,31:56,30:54,29:52,28:50,27:48,26:46,25:44,24:42,23:40,22:38,21:36,20:34,19:32,18:30,17:29,16:28,15:27,14:26,13:25,12:24,11:23,10:22,9:21,8:20,7:18,6:16,5:14,4:12,3:10,2:9,1:6,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:99,62:98,61:97,60:96,59:95,58:94,57:93,56:92,55:91,54:90,53:89,52:88,51:87,50:86,49:85,48:84,47:83,46:82,45:81,44:80,43:79,42:78,41:77,40:76,39:75,38:74,37:72,36:70,35:68,34:66,33:64,32:62,31:60,30:58,29:56,28:54,27:52,26:50,25:48,24:46,23:44,22:42,21:40,20:38,19:36,18:34,17:32,16:30,15:29,14:28,13:27,12:26,11:25,10:24,9:23,8:22,7:21,6:20,5:18,4:16,3:14,2:12,1:6,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:100,62:99,61:98,60:97,59:96,58:95,57:94,56:93,55:92,54:91,53:90,52:89,51:88,50:87,49:86,48:85,47:84,46:83,45:82,44:81,43:80,42:79,41:78,40:77,39:76,38:75,37:74,36:72,35:70,34:68,33:66,32:64,31:62,30:60,29:58,28:56,27:54,26:52,25:50,24:48,23:46,22:44,21:42,20:40,19:38,18:36,17:34,16:32,15:30,14:29,13:28,12:27,11:26,10:25,9:24,8:23,7:22,6:21,5:20,4:16,3:12,2:8,1:6,0:0}
+];
+const FLEX_F=[
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:99,64:98,63:97,62:96,61:95,60:94,59:93,58:92,57:91,56:90,55:89,54:88,53:87,52:86,51:85,50:84,49:83,48:82,47:81,46:80,45:79,44:78,43:77,42:76,41:75,40:74,39:72,38:70,37:68,36:66,35:64,34:62,33:60,32:58,31:56,30:54,29:52,28:50,27:48,26:46,25:44,24:42,23:40,22:38,21:36,20:34,19:32,18:30,17:29,16:28,15:27,14:26,13:25,12:24,11:23,10:22,9:21,8:20,7:18,6:16,5:14,4:12,3:10,2:6,1:3,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:99,63:98,62:97,61:96,60:95,59:94,58:93,57:92,56:91,55:90,54:89,53:88,52:87,51:86,50:85,49:84,48:83,47:82,46:81,45:80,44:79,43:78,42:77,41:76,40:75,39:74,38:72,37:70,36:68,35:66,34:64,33:62,32:60,31:58,30:56,29:54,28:52,27:50,26:48,25:46,24:44,23:42,22:40,21:38,20:36,19:34,18:32,17:30,16:29,15:28,14:27,13:26,12:25,11:24,10:23,9:22,8:21,7:20,6:18,5:16,4:14,3:12,2:10,1:6,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:99,62:98,61:97,60:96,59:95,58:94,57:93,56:92,55:91,54:90,53:89,52:88,51:87,50:86,49:85,48:84,47:83,46:82,45:81,44:80,43:79,42:78,41:77,40:76,39:75,38:74,37:72,36:70,35:68,34:66,33:64,32:62,31:60,30:58,29:56,28:54,27:52,26:50,25:48,24:46,23:44,22:42,21:40,20:38,19:36,18:34,17:32,16:30,15:29,14:28,13:27,12:26,11:25,10:24,9:23,8:22,7:21,6:20,5:18,4:15,3:13,2:10,1:6,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:100,62:99,61:98,60:97,59:96,58:95,57:94,56:93,55:92,54:91,53:90,52:89,51:88,50:87,49:86,48:85,47:84,46:83,45:82,44:81,43:80,42:79,41:78,40:77,39:76,38:75,37:74,36:72,35:70,34:68,33:66,32:64,31:62,30:60,29:58,28:56,27:54,26:52,25:50,24:48,23:46,22:44,21:42,20:40,19:38,18:36,17:34,16:32,15:30,14:29,13:28,12:27,11:26,10:25,9:24,8:23,7:22,6:21,5:20,4:16,3:14,2:10,1:6,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:100,62:100,61:99,60:98,59:97,58:96,57:95,56:94,55:93,54:92,53:91,52:90,51:89,50:88,49:87,48:86,47:85,46:84,45:83,44:82,43:81,42:80,41:79,40:78,39:77,38:76,37:75,36:74,35:72,34:70,33:68,32:66,31:64,30:62,29:60,28:58,27:56,26:54,25:52,24:50,23:48,22:46,21:44,20:42,19:40,18:38,17:36,16:34,15:32,14:30,13:29,12:28,11:27,10:26,9:25,8:24,7:23,6:22,5:21,4:20,3:15,2:11,1:6,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:100,62:100,61:100,60:99,59:98,58:97,57:96,56:95,55:94,54:93,53:92,52:91,51:90,50:89,49:88,48:87,47:86,46:85,45:84,44:83,43:82,42:81,41:80,40:79,39:78,38:77,37:76,36:75,35:74,34:72,33:70,32:68,31:66,30:64,29:62,28:60,27:58,26:56,25:54,24:52,23:50,22:48,21:46,20:44,19:42,18:40,17:38,16:36,15:34,14:32,13:30,12:29,11:28,10:27,9:26,8:25,7:24,6:23,5:22,4:21,3:20,2:15,1:8,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:100,62:100,61:100,60:99,59:98,58:97,57:96,56:95,55:94,54:93,53:92,52:91,51:90,50:89,49:88,48:87,47:86,46:85,45:84,44:83,43:82,42:81,41:80,40:79,39:78,38:77,37:76,36:75,35:74,34:72,33:70,32:68,31:66,30:64,29:62,28:60,27:58,26:56,25:54,24:52,23:50,22:48,21:46,20:44,19:42,18:40,17:38,16:36,15:34,14:32,13:30,12:29,11:28,10:27,9:26,8:25,7:24,6:23,5:22,4:21,3:20,2:15,1:8,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:100,62:100,61:100,60:99,59:98,58:97,57:96,56:95,55:94,54:93,53:92,52:91,51:90,50:89,49:88,48:87,47:86,46:85,45:84,44:83,43:82,42:81,41:80,40:79,39:78,38:77,37:76,36:75,35:74,34:72,33:70,32:68,31:66,30:64,29:62,28:60,27:58,26:56,25:54,24:52,23:50,22:48,21:46,20:44,19:42,18:40,17:38,16:36,15:34,14:32,13:30,12:29,11:28,10:27,9:26,8:25,7:24,6:23,5:22,4:21,3:20,2:15,1:8,0:0},
+  {73:100,72:100,71:100,70:100,69:100,68:100,67:100,66:100,65:100,64:100,63:100,62:100,61:100,60:100,59:99,58:98,57:97,56:96,55:95,54:94,53:93,52:92,51:91,50:90,49:89,48:88,47:87,46:86,45:85,44:84,43:83,42:82,41:81,40:80,39:79,38:78,37:77,36:76,35:75,34:74,33:72,32:70,31:68,30:66,29:64,28:62,27:60,26:58,25:56,24:54,23:52,22:50,21:48,20:46,19:44,18:42,17:40,16:38,15:36,14:34,13:32,12:30,11:29,10:28,9:27,8:26,7:25,6:24,5:23,4:22,3:21,2:20,1:8,0:0}
+];
+
+const PLANCHA=[
+  [315,100,100,100,100,100,100,100,100,100],
+  [295,95,97,98,99,100,100,100,100,100],
+  [270,89,90,91,93,94,95,97,98,100],
+  [240,81,82,84,85,86,88,89,90,93],
+  [210,73,74,76,77,78,80,81,82,85],
+  [180,65,66,68,69,70,72,73,74,77],
+  [150,57,58,60,61,62,64,65,66,69],
+  [120,49,50,52,53,54,56,57,58,61],
+  [90,41,43,44,45,47,48,49,50,53],
+  [61,30,31,32,33,35,36,37,39,41],
+  [40,20,21,23,24,25,27,28,30,32],
+  [32,15,16,17,18,19,20,21,23,25],
+  [25,8,9,10,11,12,13,14,15,17],
+  [15,0,0,0,0,0,0,0,0,0]
+];
+
+const CARR_M=[[386,100],[402,96],[418,92],[434,88],[450,84],[466,80],[482,76],[498,72],[514,68],[530,54],[554,48],[578,42],[602,36],[626,30],[650,24],[674,19],[698,16],[722,13],[746,10],[770,7],[794,4],[900,0]];
+const CARR_F=[[386,100],[410,100],[434,100],[458,94],[482,88],[506,82],[530,76],[554,70],[578,64],[602,58],[626,52],[650,46],[674,40],[698,34],[722,28],[746,22],[762,20],[786,16],[810,13],[834,10],[858,7],[882,4],[914,0]];
+const CARR_MULT_M=[1,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16];
+const CARR_MULT_F=[1,1,1,1,1.02,1.04,1.06,1.08,1.1];
+
+const AGIL=[
+  [11.6,100,100,100,100,100,100,100,100,100,100],
+  [12.0,97,100,100,100,100,100,100,100,100,100],
+  [12.5,86,100,91,100,95,100,99,100,100,100],
+  [13.0,72,94,77,98,83,100,89,100,97,100],
+  [13.5,59,84,65,88,71,92,74,96,86,100],
+  [14.0,46,74,50,78,56,82,62,86,72,96],
+  [14.5,34,64,38,68,43,72,48,76,59,86],
+  [15.0,24,54,28,58,32,62,36,66,46,76],
+  [15.2,20,50,24,54,28,58,32,62,40,72],
+  [15.4,18,46,20,50,24,54,28,58,36,68],
+  [16.0,12,34,14,38,16,42,18,46,24,56],
+  [16.5,7,24,9,28,11,32,13,36,17,46],
+  [17.0,2,17,4,19,6,22,8,26,12,36],
+  [17.5,0,12,0,14,1,16,3,18,5,26],
+  [18.0,0,7,0,9,0,11,0,13,0,18],
+  [19.0,0,0,0,0,0,0,0,0,0,0]
+];
+
+function fmtTime(s){const m=Math.floor(s/60),ss=s%60;return m+':'+(ss<10?'0':'')+ss;}
+function parseMmSs(str){if(!str||!str.trim())return null;const p=str.trim().split(':');if(p.length!==2)return null;const m=parseInt(p[0]),s=parseInt(p[1]);if(isNaN(m)||isNaN(s))return null;return m*60+s;}
+
+function getFlexPts(rep,idx,sexo){
+  const t=sexo==='M'?FLEX_M[idx]:FLEX_F[idx];
+  const r=Math.floor(rep);
+  const keys=Object.keys(t).map(Number).sort((a,b)=>b-a);
+  for(const k of keys)if(r>=k)return t[k];
+  return 0;
+}
+function findFlexMin(idx,sexo){
+  const t=sexo==='M'?FLEX_M[idx]:FLEX_F[idx];
+  const entries=Object.entries(t).map(([k,v])=>({k:parseInt(k),v})).sort((a,b)=>a.k-b.k);
+  for(const e of entries)if(e.v>=20)return e.k;
+  return '—';
+}
+function findFlexMax(idx,sexo){
+  const t=sexo==='M'?FLEX_M[idx]:FLEX_F[idx];
+  return Math.max(...Object.keys(t).map(Number));
+}
+
+function getPlanchaPts(secs,idx){
+  for(let i=0;i<PLANCHA.length;i++)if(secs>=PLANCHA[i][0])return PLANCHA[i][idx+1];
+  return 0;
+}
+function planchaMin(idx){for(let i=PLANCHA.length-1;i>=0;i--)if(PLANCHA[i][idx+1]>=20)return PLANCHA[i][0];return 0;}
+
+function getCarreraPts(secs,idx,sexo){
+  const mult=sexo==='M'?CARR_MULT_M[idx]:CARR_MULT_F[idx];
+  const base=sexo==='M'?CARR_M:CARR_F;
+  const adj=secs/mult;
+  for(let i=0;i<base.length;i++)if(adj<=base[i][0])return base[i][1];
+  return 0;
+}
+function carreraMax(idx,sexo){const mult=sexo==='M'?CARR_MULT_M[idx]:CARR_MULT_F[idx];const b=sexo==='M'?CARR_M:CARR_F;return Math.round(b[0][0]*mult);}
+function carreraMin(idx,sexo){
+  const mult=sexo==='M'?CARR_MULT_M[idx]:CARR_MULT_F[idx];
+  const b=sexo==='M'?CARR_M:CARR_F;
+  for(let i=b.length-1;i>=0;i--)if(b[i][1]>=20)return Math.round(b[i][0]*mult);
+  return 0;
+}
+
+function getAgilPts(secs,idx,sexo){
+  const col=idx*2+(sexo==='M'?1:2);
+  for(let i=0;i<AGIL.length-1;i++){if(secs<=AGIL[i][0])return AGIL[i][col];if(secs<AGIL[i+1][0])return AGIL[i][col];}
+  return 0;
+}
+function agilMin(idx,sexo){const col=idx*2+(sexo==='M'?1:2);for(let i=AGIL.length-1;i>=0;i--)if(AGIL[i][col]>=20)return AGIL[i][0];return 0;}
+
+function vals(){
+  return {
+    flex:document.getElementById('inp-flex')?document.getElementById('inp-flex').value:'',
+    plancha:document.getElementById('inp-plancha')?document.getElementById('inp-plancha').value:'',
+    carrera:document.getElementById('inp-carrera')?document.getElementById('inp-carrera').value:'',
+    agil:document.getElementById('inp-agil')?document.getElementById('inp-agil').value:''
+  };
+}
+
+function update(){
+  const idx=parseInt(document.getElementById('edad').value);
+  const sexo=document.getElementById('sexo').value;
+  const agilAplica=idx<=4;
+  const scores=[];
+
+  function applyCard(id,pts){
+    const pEl=document.getElementById('pts-'+id);
+    const bEl=document.getElementById('badge-'+id);
+    const card=document.getElementById('card-'+id);
+    if(!pEl)return null;
+    card.classList.remove('apto','noapto');
+    if(pts===null){pEl.textContent='—';pEl.className='pts-num';bEl.textContent='sin dato';bEl.className='prueba-badge nd-b';return null;}
+    pEl.textContent=pts;
+    if(pts>=20){card.classList.add('apto');pEl.className='pts-num apto';bEl.textContent='APTO';bEl.className='prueba-badge apto-b';}
+    else{card.classList.add('noapto');pEl.className='pts-num noapto';bEl.textContent='NO APTO';bEl.className='prueba-badge noapto-b';}
+    return pts;
+  }
+
+  const vFlex=document.getElementById('inp-flex').value;
+  const pFlex=vFlex!==''?getFlexPts(parseFloat(vFlex),idx,sexo):null;
+  const r1=applyCard('flex',pFlex);if(r1!==null)scores.push(r1);
+
+  const vPlancha=document.getElementById('inp-plancha').value;
+  const pPlancha=vPlancha!==''?getPlanchaPts(parseMmSs(vPlancha)||0,idx):null;
+  const r2=applyCard('plancha',pPlancha);if(r2!==null)scores.push(r2);
+
+  const vCarrera=document.getElementById('inp-carrera').value;
+  const pCarrera=vCarrera!==''?getCarreraPts(parseMmSs(vCarrera)||0,idx,sexo):null;
+  const r3=applyCard('carrera',pCarrera);if(r3!==null)scores.push(r3);
+
+  if(agilAplica){
+    const vAgil=document.getElementById('inp-agil').value;
+    const pAgil=vAgil!==''?getAgilPts(parseFloat(vAgil),idx,sexo):null;
+    const r4=applyCard('agil',pAgil);if(r4!==null)scores.push(r4);
+  }
+
+  const totalPruebas=agilAplica?4:3;
+  const media=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null;
+  const aptos=scores.filter(p=>p>=20).length;
+  const noAptos=scores.filter(p=>p<20).length;
+
+  document.getElementById('r-num').textContent=scores.length+' / '+totalPruebas;
+  document.getElementById('r-media').textContent=media!==null?media:'—';
+  document.getElementById('r-ratio').textContent=scores.length?aptos+'  /  '+noAptos:'—';
+
+  const banner=document.getElementById('global-banner');
+  const titulo=document.getElementById('global-titulo');
+  const sub=document.getElementById('global-sub');
+  banner.className='global-banner';
+  if(scores.length===0){titulo.textContent='—';sub.textContent='Introduce al menos una marca para ver el resultado';banner.classList.add('nd');}
+  else if(noAptos>0){titulo.textContent='NO APTO';sub.textContent='Una o más pruebas por debajo del mínimo de 20 puntos.';banner.classList.add('ko');}
+  else if(scores.length===totalPruebas){titulo.textContent='APTO';sub.textContent='¡Todas las pruebas superadas! Puntuación media: '+media+' pts';banner.classList.add('ok');}
+  else{titulo.textContent='PARCIAL';sub.textContent='Faltan '+(totalPruebas-scores.length)+' pruebas por introducir. Hasta ahora: '+aptos+' aptas.';banner.classList.add('nd');}
+}
+
+function render(){
+  const idx=parseInt(document.getElementById('edad').value);
+  const sexo=document.getElementById('sexo').value;
+  const agilAplica=idx<=4;
+  const v=vals();
+
+  const fMin=findFlexMin(idx,sexo);
+  const fMax=findFlexMax(idx,sexo);
+  const pMin=fmtTime(planchaMin(idx));
+  const cMin=fmtTime(carreraMin(idx,sexo));
+  const cMax=fmtTime(carreraMax(idx,sexo));
+  const aMin=agilAplica?agilMin(idx,sexo).toFixed(1):'—';
+
+  document.getElementById('bloques').innerHTML=`
+  <div class="prueba-card" id="card-flex">
+    <div class="prueba-header">
+      <div class="prueba-title-group">
+        <div class="prueba-titulo">Flexo-extensiones de brazos</div>
+        <div class="prueba-desc">Máximo de repeticiones en 2 minutos</div>
+      </div>
+      <span class="prueba-badge nd-b" id="badge-flex">sin dato</span>
+    </div>
+    <div class="refs-input">
+      <div class="ref-box">
+        <div class="ref-etiq min">Mínimo apto</div>
+        <div class="ref-val min">${fMin} rep</div>
+      </div>
+      <div class="ref-box">
+        <div class="ref-etiq max">Máximo (100 pts)</div>
+        <div class="ref-val max">${fMax} rep</div>
+      </div>
+      <div class="input-group">
+        <label>Tu marca (repeticiones)</label>
+        <input type="number" id="inp-flex" min="0" max="100" placeholder="ej: 35" value="${v.flex}" oninput="update()">
+        <div class="pts-row">
+          <span class="pts-num" id="pts-flex">—</span>
+          <span class="pts-label">puntos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prueba-card" id="card-plancha">
+    <div class="prueba-header">
+      <div class="prueba-title-group">
+        <div class="prueba-titulo">Plancha isométrica</div>
+        <div class="prueba-desc">Tiempo manteniendo la posición · formato mm:ss</div>
+      </div>
+      <span class="prueba-badge nd-b" id="badge-plancha">sin dato</span>
+    </div>
+    <div class="refs-input">
+      <div class="ref-box">
+        <div class="ref-etiq min">Mínimo apto</div>
+        <div class="ref-val min">${pMin}</div>
+      </div>
+      <div class="ref-box">
+        <div class="ref-etiq max">Máximo (100 pts)</div>
+        <div class="ref-val max">5:15</div>
+      </div>
+      <div class="input-group">
+        <label>Tu marca (mm:ss)</label>
+        <input type="text" id="inp-plancha" placeholder="ej: 1:30" value="${v.plancha}" oninput="update()">
+        <div class="pts-row">
+          <span class="pts-num" id="pts-plancha">—</span>
+          <span class="pts-label">puntos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prueba-card" id="card-carrera">
+    <div class="prueba-header">
+      <div class="prueba-title-group">
+        <div class="prueba-titulo">Carrera 2.000 metros</div>
+        <div class="prueba-desc">Tiempo total · formato mm:ss · menos tiempo = más puntos</div>
+      </div>
+      <span class="prueba-badge nd-b" id="badge-carrera">sin dato</span>
+    </div>
+    <div class="refs-input">
+      <div class="ref-box">
+        <div class="ref-etiq min">Límite apto</div>
+        <div class="ref-val min">${cMin}</div>
+      </div>
+      <div class="ref-box">
+        <div class="ref-etiq max">Óptimo (100 pts)</div>
+        <div class="ref-val max">${cMax}</div>
+      </div>
+      <div class="input-group">
+        <label>Tu marca (mm:ss)</label>
+        <input type="text" id="inp-carrera" placeholder="ej: 9:30" value="${v.carrera}" oninput="update()">
+        <div class="pts-row">
+          <span class="pts-num" id="pts-carrera">—</span>
+          <span class="pts-label">puntos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prueba-card${agilAplica?'':' inactiva'}" id="card-agil">
+    <div class="prueba-header">
+      <div class="prueba-title-group">
+        <div class="prueba-titulo">Circuito agilidad-velocidad</div>
+        <div class="prueba-desc">${agilAplica?'Tiempo en segundos · menos tiempo = más puntos':'No aplica para mayores de 45 años'}</div>
+      </div>
+      <span class="prueba-badge ${agilAplica?'nd-b':'na-b'}" id="badge-agil">${agilAplica?'sin dato':'no aplica'}</span>
+    </div>
+    ${agilAplica?`<div class="refs-input">
+      <div class="ref-box">
+        <div class="ref-etiq min">Límite apto</div>
+        <div class="ref-val min">${aMin}s</div>
+      </div>
+      <div class="ref-box">
+        <div class="ref-etiq max">Óptimo (100 pts)</div>
+        <div class="ref-val max">11.6s</div>
+      </div>
+      <div class="input-group">
+        <label>Tu marca (segundos)</label>
+        <input type="number" id="inp-agil" step="0.1" min="10" max="25" placeholder="ej: 14.5" value="${v.agil}" oninput="update()">
+        <div class="pts-row">
+          <span class="pts-num" id="pts-agil">—</span>
+          <span class="pts-label">puntos</span>
+        </div>
+      </div>
+    </div>`:`<p class="na-msg">Esta prueba solo se realiza hasta los 45 años (grupos 17–25, 26–30, 31–35, 36–40 y 41–45).</p>`}
+  </div>
+  `;
+  update();
+}
+
+render();
+</script>
+</body>
+</html>
