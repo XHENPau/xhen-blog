@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ~/Desktop/xhen-blog
+cd ~/xhen-blog
 git add -A
 git commit -m "Añadir imágenes artículos batido y bowl"
 git push origin main
